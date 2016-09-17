@@ -35,7 +35,7 @@
 
 		Body Fat: <input type="number" name="body-fat" min="0">% (Optional)<br>
 		Activity Level: 
-			<select>
+			<select id="activity-level">
 			  <option value="sedentary">Sedentary</option>
 			  <option value="lightly-active">Lightly Active</option>
 			  <option value="moderately-active">Moderately Active</option>
@@ -89,9 +89,12 @@
 			</select>
 			<input type="number" name="calorie-goal" min="1" max="500">lb. by <input type="date" name="goal-date"><br>
 
-		<input type="submit" name="calculate" value="Calculate">
-		<input type="reset" name="reset">
+		
 	</form>
+
+	<input type="submit" onclick="caloricNeed()">
+	<input type="reset" name="reset">
+	<h3><span id="calorie-result"></span></h3>
 </div>
 
 <h2>3) Track Calories and Weight</h2>

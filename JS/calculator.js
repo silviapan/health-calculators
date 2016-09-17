@@ -45,7 +45,6 @@ function bodyMassIndex() {
 	}
 }
 
-
 function copyMeasurements(copy) {
   if (copy.checked) {
   	var weightCopy = document.getElementsByName('weight')[0].value;
@@ -56,40 +55,71 @@ function copyMeasurements(copy) {
   }
 }
 
+function caloricNeed() {
+	var inputWeight = parseInt(document.getElementsByName('weight')[1].value);
+	var inputHeight = parseInt(document.getElementsByName('height')[1].value);
+	var inputAge = parseInt(document.getElementsByName('age')[0].value);
+	var inputBodyFat = document.getElementsByName('body-fat')[0].value;
 
-// Convert imperial units to metric units for ease of calculation
-function poundToKilgram(pound) {
-	return pound * 0.45359237;
-}
-
-function inchToCentimeter(inch) {
-	return inch * 2.54;
-}
-
-// Harris-Benedict Equation
-function harrisBenedict(sex, weight, height, age) {
-	if (sex == 'male') {
-		var harrisBenedictBase = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+	if(document.getElementById('imperial').checked) {
+		// Convert lb to kg
+  	inputWeight *= 0.45359237;
+  	// Convert in to cm
+  	inputHeight *= 2.54;
 	}
-	else if (sex == 'female') {
-		var harrisBenedictBase = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
-	}
-	return Math.floor(harrisBenedictBase);
-}
 
-function mifflinStJeor(sex, weight, height, age) {
-	if (sex == 'male') {
-		var mifflinStJeorBase = (9.99 * weight) + (6.25 * height) - (4.92 * age) + 5;
+	var calorieBase;
+	if (inputBodyFat == '') {
+//Mifflin St Jeor formula for calculating BMR
+		function mifflinStJeor() {
+			// Formula for male
+			if (document.getElementsByName('sex')[0].checked) {
+				var mifflinStJeorBase = (9.99 * inputWeight) + (6.25 * inputHeight) - (4.92 * inputAge) + 5;
+			}
+			// Formula for female
+			else if (document.getElementsByName('sex')[1].checked) {
+				var mifflinStJeorBase = (9.99 * inputWeight) + (6.25 * inputHeight) - (4.92 * inputAge) - 161;
+			}
+			calorieBase = Math.floor(mifflinStJeorBase);
+		}
+		mifflinStJeor();
 	}
-	else if (sex == 'female') {
-		var mifflinStJeorBase = (9.99 * weight) + (6.25 * height) - (4.92 * age) - 161;
+
+	else {
+		// Katch-McArdle formula for calculating BMR 
+		function katchMcArdle() {
+			var leanBodyMass = inputWeight * ((100 - parseInt(inputBodyFat))/100);
+			var katchMcArdleBase = 370 + (21.6 * leanBodyMass);
+			calorieBase = Math.floor(katchMcArdleBase);
+		}
+		katchMcArdle();
 	}
-	return Math.floor(mifflinStJeorBase);
-}
 
-function katchMcArdle(weight, bodyFat) {
-	var leanBodyMass = weight * ((100 - bodyFat)/100);
-	var katchMcArdleBase = 370 + (21.6 * leanBodyMass);
-	return Math.floor(katchMcArdleBase);
-}
+	var totalCalories;
 
+	var activityLevel = document.getElementById('activity-level').options.selectedIndex;
+	switch (activityLevel) {
+		case 0:
+			totalCalories = calorieBase * 1.2;
+			break;
+
+		case 1:
+			totalCalories = calorieBase * 1.3;
+			break;
+
+		case 2: 
+			totalCalories = calorieBase * 1.5;
+			break;
+
+		case 3:
+			totalCalories = calorieBase * 1.7;
+			break;
+
+		case 4: 
+			totalCalories = calorieBase * 1.9;
+			break;
+	}
+
+	var calorieDisplay = document.getElementById('calorie-result');
+	calorieDisplay.innerHTML = "TDEE: " + Math.floor(totalCalories);
+}
