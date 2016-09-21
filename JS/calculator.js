@@ -1,3 +1,19 @@
+function convertUnits() {
+	var weightUnits = document.getElementsByClassName('lb-kg');
+	var heightUnits = document.getElementsByClassName('in-cm');
+
+	if(document.getElementById('imperial').checked) {
+  	weightUnits[0].innerHTML = "lb";
+  	weightUnits[1].innerHTML = "lb";
+  	heightUnits[0].innerHTML = "in";
+	}
+	else {
+		weightUnits[0].innerHTML = "kg";
+		weightUnits[1].innerHTML = "kg";
+		heightUnits[0].innerHTML = "cm";
+	}
+}
+
 // Calculate BMI with weight and height
 function bodyMassIndex() {
 	// Get the user's weight and height input
@@ -5,10 +21,9 @@ function bodyMassIndex() {
 	var inputHeight = parseInt(document.getElementsByName('height')[0].value);
 
 	if(document.getElementById('imperial').checked) {
-		// Convert lb to kg
-  	inputWeight *= 0.45359237;
-  	// Convert in to cm
-  	inputHeight *= 2.54;
+		// Convert lb to kg and in to cm
+		inputWeight *= 0.45359237;
+		inputHeight *= 2.54;
 	}
 
 	// Formula for calculating BMI
@@ -35,68 +50,66 @@ function bodyMassIndex() {
 		displayBmiResult.innerHTML = displayBmi + "underweight." + displayHealthyWeight;
 	}
 	else if (between(bodyMassIndexResult, 18.5, 24.9)) {
-		displayBmiResult.innerHTML = displayBmi + "normal weight.";
+		displayBmiResult.innerHTML = displayBmi + "normal weight. " + displayHealthyWeight;
 	}
 	else if (between(bodyMassIndexResult, 25.0, 29.9)) {
 		displayBmiResult.innerHTML = displayBmi + "overweight." + displayHealthyWeight;
 	}
-	else {
+	else if (bodyMassIndexResult > 0) {
 		displayBmiResult.innerHTML = displayBmi + "obese." + displayHealthyWeight;
+	}
+	else {
+		displayBmiResult.innerHTML = "";
 	}
 }
 
-function copyMeasurements(copy) {
-  if (copy.checked) {
-  	var weightCopy = document.getElementsByName('weight')[0].value;
-  	var heightCopy = document.getElementsByName('height')[0].value;
-
-  	document.getElementsByName('weight')[1].value = weightCopy;
-  	document.getElementsByName('height')[1].value = heightCopy;
-  }
-}
-
 function caloricNeed() {
-	var inputWeight = parseInt(document.getElementsByName('weight')[1].value);
-	var inputHeight = parseInt(document.getElementsByName('height')[1].value);
+	var inputWeight = parseInt(document.getElementsByName('weight')[0].value);
+	var inputHeight = parseInt(document.getElementsByName('height')[0].value);
 	var inputAge = parseInt(document.getElementsByName('age')[0].value);
 	var inputBodyFat = document.getElementsByName('body-fat')[0].value;
+	var inputGoal = parseInt(document.getElementsByName('weight-goal')[0].value);
 
 	if(document.getElementById('imperial').checked) {
 		// Convert lb to kg
   	inputWeight *= 0.45359237;
+  	inputGoal *= 0.45359237;
   	// Convert in to cm
   	inputHeight *= 2.54;
 	}
 
+	var male = document.getElementsByName('sex')[0].checked;
+	var female = document.getElementsByName('sex')[1].checked;
+	var bmrDisplay = document.getElementById('bmr-result');	
 	var calorieBase;
+
 	if (inputBodyFat == '') {
-//Mifflin St Jeor formula for calculating BMR
+	//Mifflin St Jeor formula for calculating BMR
 		function mifflinStJeor() {
-			// Formula for male
-			if (document.getElementsByName('sex')[0].checked) {
+			if (male) {
 				var mifflinStJeorBase = (9.99 * inputWeight) + (6.25 * inputHeight) - (4.92 * inputAge) + 5;
 			}
-			// Formula for female
-			else if (document.getElementsByName('sex')[1].checked) {
+			else if (female) {
 				var mifflinStJeorBase = (9.99 * inputWeight) + (6.25 * inputHeight) - (4.92 * inputAge) - 161;
 			}
 			calorieBase = Math.floor(mifflinStJeorBase);
+			bmrDisplay.innerHTML = "BMR: " + calorieBase + " Calories";
 		}
 		mifflinStJeor();
 	}
 
 	else {
-		// Katch-McArdle formula for calculating BMR 
+	// Katch-McArdle formula for calculating BMR 
 		function katchMcArdle() {
 			var leanBodyMass = inputWeight * ((100 - parseInt(inputBodyFat))/100);
 			var katchMcArdleBase = 370 + (21.6 * leanBodyMass);
 			calorieBase = Math.floor(katchMcArdleBase);
+			bmrDisplay.innerHTML = "BMR: " + calorieBase + " Calories";
 		}
 		katchMcArdle();
 	}
 
 	var totalCalories;
-
 	var activityLevel = document.getElementById('activity-level').options.selectedIndex;
 	switch (activityLevel) {
 		case 0:
@@ -120,6 +133,50 @@ function caloricNeed() {
 			break;
 	}
 
-	var calorieDisplay = document.getElementById('calorie-result');
-	calorieDisplay.innerHTML = "TDEE: " + Math.floor(totalCalories);
+	if (male && totalCalories < 1800) {
+		totalCalories = 1800;
+	}
+	else if (female && totalCalories < 1200) {
+		totalCalories = 1200;
+	}
+
+	var calorieDisplay = document.getElementById('tdee-result');
+	calorieDisplay.innerHTML = "TDEE: " + Math.floor(totalCalories) + " Calories";
+
+	
+	var rateChange = document.getElementById('rate').options.selectedIndex;
+	var calorieDifference;
+	switch (rateChange) {
+		case 0: 
+			calorieDifference = totalCalories * 0.15;
+			break;
+		case 1:
+			calorieDifference = totalCalories * 0.20;
+			break;
+		case 2:
+			calorieDifference = totalCalories * 0.25;
+			break;
+	}
+
+	var displayNewTotal = document.getElementById('new-calorie-result');
+	var newTotalCalories;
+
+	if (inputGoal < inputWeight) {
+		newTotalCalories = Math.floor(totalCalories - calorieDifference);
+		// The calorie deficit cannot go past the BMR 
+		if (newTotalCalories < calorieBase) {
+			newTotalCalories = calorieBase;
+			if (male && calorieBase < 1800) {
+				newTotalCalories = 1800;
+			}
+			else if (female && calorieBase < 1200) {
+				newTotalCalories = 1200;
+			}
+		}
+		displayNewTotal.innerHTML = "Eat at a deficit of " + Math.floor(totalCalories - newTotalCalories) + " calories each day for a total of " + newTotalCalories + " calories.";
+	}
+	else if (inputGoal > inputWeight) {
+		newTotalCalories = Math.floor(totalCalories + calorieDifference);
+		displayNewTotal.innerHTML = "Eat at a surplus of " + Math.floor(calorieDifference) + " calories each day for a total of " + newTotalCalories + " calories.";
+	}
 }
