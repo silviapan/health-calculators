@@ -84,30 +84,31 @@ function caloricNeed() {
 	var calorieBase;
 
 	if (inputBodyFat == '') {
-	//Mifflin St Jeor formula for calculating BMR
-		function mifflinStJeor() {
-			if (male) {
-				var mifflinStJeorBase = (9.99 * inputWeight) + (6.25 * inputHeight) - (4.92 * inputAge) + 5;
-			}
-			else if (female) {
-				var mifflinStJeorBase = (9.99 * inputWeight) + (6.25 * inputHeight) - (4.92 * inputAge) - 161;
-			}
-			calorieBase = Math.floor(mifflinStJeorBase);
-			bmrDisplay.innerHTML = "BMR: " + calorieBase + " Calories";
-		}
-		mifflinStJeor();
+		mifflinStJeor(inputWeight, inputHeight, inputAge);
+		bmrDisplay.innerHTML = "BMR: " + calorieBase + " Calories";
+	}
+	else {
+		katchMcArdle(inputWeight, parseInt(inputBodyFat));
+		bmrDisplay.innerHTML = "BMR: " + calorieBase + " Calories";
 	}
 
-	else {
-	// Katch-McArdle formula for calculating BMR 
-		function katchMcArdle() {
-			var leanBodyMass = inputWeight * ((100 - parseInt(inputBodyFat))/100);
-			var katchMcArdleBase = 370 + (21.6 * leanBodyMass);
-			calorieBase = Math.floor(katchMcArdleBase);
-			bmrDisplay.innerHTML = "BMR: " + calorieBase + " Calories";
-		}
-		katchMcArdle();
+//Mifflin St Jeor formula for calculating BMR
+function mifflinStJeor(weight, height, age) {
+	if (male) {
+		var mifflinStJeorBase = (9.99 * weight) + (6.25 * height) - (4.92 * age) + 5;
 	}
+	else if (female) {
+		var mifflinStJeorBase = (9.99 * weight) + (6.25 * height) - (4.92 * age) - 161;
+	}
+	calorieBase = Math.floor(mifflinStJeorBase);
+}
+
+// Katch-McArdle formula for calculating BMR 
+function katchMcArdle(weight, fat) {
+	var leanBodyMass = weight * ((100 - fat)/100);
+	var katchMcArdleBase = 370 + (21.6 * leanBodyMass);
+	calorieBase = Math.floor(katchMcArdleBase);
+}
 
 	var totalCalories;
 	var activityLevel = document.getElementById('activity-level').options.selectedIndex;
@@ -143,7 +144,6 @@ function caloricNeed() {
 	var calorieDisplay = document.getElementById('tdee-result');
 	calorieDisplay.innerHTML = "TDEE: " + Math.floor(totalCalories) + " Calories";
 
-	
 	var rateChange = document.getElementById('rate').options.selectedIndex;
 	var calorieDifference;
 	switch (rateChange) {
@@ -175,8 +175,18 @@ function caloricNeed() {
 		}
 		displayNewTotal.innerHTML = "Eat at a deficit of " + Math.floor(totalCalories - newTotalCalories) + " calories each day for a total of " + newTotalCalories + " calories.";
 	}
+
 	else if (inputGoal > inputWeight) {
 		newTotalCalories = Math.floor(totalCalories + calorieDifference);
 		displayNewTotal.innerHTML = "Eat at a surplus of " + Math.floor(calorieDifference) + " calories each day for a total of " + newTotalCalories + " calories.";
+	}
+
+	var weightArray = [];
+	while (inputWeight >= inputGoal) {
+		weightArray.push(inputWeight--);
+			for (i = 0; i < weightArray.length; i++) {
+				mifflinStJeor(inputWeight[i], inputHeight, inputAge);
+				console.log(weightArray[i]);
+			}
 	}
 }
