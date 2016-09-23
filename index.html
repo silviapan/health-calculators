@@ -2,41 +2,52 @@
 <html>
 <head>
 	<title>BMI and Calorie Calculator</title>
-	<script type="text/javascript" src="JS/calculator.js"></script>
+		<link rel="stylesheet" type="text/css" href="CSS/normalize.css">
+		<link rel="stylesheet" type="text/css" href="CSS/style.css">
+
+		<script type="text/javascript" src="JS/calculator.js"></script>
+
 </head>
 
 <body>
 
-<p>If you have any questions or concerns, please consult with your physician before starting any weight loss or weight gain regimen.</p>
-<div class="bmi-calculator">
+<header>
+	<h1>Nutrition Calculators</h1>
+	<p>Managing your weight take 3 simple steps.</p>
+</header>
 
+<div class="container">
+<div class="bmi-container">
 	<input type="radio" name="system" id="imperial" checked="checked" onchange="convertUnits()">Imperial
 	<input type="radio" name="system" id="metric" onchange="convertUnits()">Metric<br>
 
 	<h2>1) Am I at a healthy weight?</h2>
 	<p>Body mass index (BMI) is a value that represents the relationship between your height and weight. While it cannot predict with absolute certainty the ideal weight and health of the individual, it can be a great indicator of body fat percentage and the associated health risks. For example, a high BMI is strongly correlated with a high level of excess body fat. Please note that the calculator is intended for adult (ages 20+) use only. For a child and teen BMI calculator, <a href="https://www.cdc.gov/healthyweight/assessing/bmi/">click here</a>.</p>
 
+	<div class="bmi-calculator">
 	<h3>Calculate BMI</h3>
-	<p>Enter data and measurements to receive personalized suggestions.</p>
+	<p>Enter your data to receive personalized suggestions.</p>
 	<form>
-		
 		<input type="radio" name="sex" value="male">Male
 		<input type="radio" name="sex" value="female">Female<br>
 		<table>
-			<tr><td>Age: 		<input type="number" name="age" min="20" max="100">years</td></tr>
+			<tr><td>Age: 		<input type="number" name="age" min="20" max="100"><span class="unit">years</span></td></tr>
 			<tr><td>Weight: <input type="number" name="weight" min="1" max="500" oninput="bodyMassIndex()"><span class="unit lb-kg">lb</span></td></tr>
 			<tr><td>Height: <input type="number" name="height" min="1" max="250" oninput="bodyMassIndex()"><span class="unit in-cm">in</span></td></tr>
 		</table>
 	</form>
+	</div>
 	<h3>Result: <span id="bmi-result"></span></h3>
 </div>
 
-<div class="calorie-calculator">
+<div class="calorie-container">
 	<h2>2) How much should I eat?</h2>
 	<p>All food contains calories, which are units of energy that your body needs to function. The basal metabolic rate (BMR) is the minimum amount of energy used by the body at rest. The total daily energry expenditure (TDEE) takes into account activity level and multiplies the BMR by the according activity level. One important theory to keep in mind is "Calories In, Calories Out". When calorie intake is greater than calorie expenditure, weight gain occurs. Conversely, when calorie intake is less than calorie expenditure, weight loss occurs.</p>
+
+	<div class="calorie-calculator">
 	<h3>Calculate Caloric Need</h3>
 	<form>
-		Body Fat: <input type="number" name="body-fat" min="0" max="100">% (Optional)<br>
+		Body Fat: <input type="number" name="body-fat" min="0" max="100"><span class="unit">%</span> (Optional)<br>
 		Activity Level: 
 			<select id="activity-level">
 			  <option value="sedentary">Sedentary</option>
@@ -46,9 +57,7 @@
 			  <option value="extremely-active">Extremely Active</option>
 			</select>
 
-			<button>More Info</button>
-			<div class="modal">
-				<span class="close">x</span>
+			<div class="more-info">
 				Choose an activity level that best describes your lifestyle.
 				<table>
 					<tr>
@@ -92,15 +101,16 @@
 			  <option value="moderate">Moderate</option>
 			  <option value="fast">Fast</option>
 			</select>
-
-
-		
 	</form>
-
+	
 	<input type="submit" onclick="caloricNeed()">
 	<input type="reset" name="reset">
+	</div>
+
 	<h3><span id="bmr-result"></span></h3>
 	<h3><span id="tdee-result"></span></h3>
+
+	<h3><span id="weight-warning"></span></h3>
 	<h3><span id="new-calorie-result"></span></h3>
 	<h3><span id="reach-goal-date"></span></h3>
 
@@ -109,7 +119,9 @@
 </div>
 
 <h2>3) Track Calories and Weight</h2>
-Disclaimer: The calculators are created with intention to be used as tools to help manage weight. The results are suggestions. 
+Disclaimer: The calculators are created with intention to be used as tools to help manage weight. The results are suggestions. Please consult with a physician before starting any regimen.
+
+</div>
 </body>
 
 </html>

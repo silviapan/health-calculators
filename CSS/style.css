@@ -1,0 +1,45 @@
+header {
+	height: 200px;
+	background-color: #5686D7; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	color: #fff;
+}
+
+
+.container {
+	width: 80%;
+	min-width: 400px;
+	margin: 0 auto;
+	font-size: 18px;
+}
+
+
+.bmi-calculator, .calorie-calculator {
+	border: 1px solid black;
+	border-radius: 10px;
+	width: 400px;
+}
+
+.unit {
+	background-color: #ddd;
+	width: 100px;
+	height: 40px;
+	border-radius: 3px;
+}
+
+h1 {
+	font-size: 48px;
+	text-align: center;
+}
+
+h2 {
+	font-size: 36px;
+	color: #0F56CF;
+}
+
+h3 {
+	font-size: 24px;
+}

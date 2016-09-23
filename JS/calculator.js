@@ -67,10 +67,10 @@ function caloricNeed() {
 	var inputWeight = parseInt(document.getElementsByName('weight')[0].value);
 	var inputHeight = parseInt(document.getElementsByName('height')[0].value);
 	var inputAge = parseInt(document.getElementsByName('age')[0].value);
-	var inputBodyFat = document.getElementsByName('body-fat')[0].value;
 	var inputGoal = parseInt(document.getElementsByName('weight-goal')[0].value);
+	var inputBodyFat = document.getElementsByName('body-fat')[0].value;
 
-	if(document.getElementById('imperial').checked) {
+	if (document.getElementById('imperial').checked) {
 		// Convert lb to kg
   	inputWeight *= 0.45359237;
   	inputGoal *= 0.45359237;
@@ -78,11 +78,17 @@ function caloricNeed() {
   	inputHeight *= 2.54;
 	}
 
+	// Calculate the healthy weight range in order to limit extremely low or high goal inputs
+	var healthyWeightLow = Math.floor(18.5 * Math.pow(inputHeight/100, 2));
+	var healthyWeightHigh = Math.floor(24.9 * Math.pow(inputHeight/100, 2));
+
+	// Declare variables to be used in formulas for calculating calories
 	var male = document.getElementsByName('sex')[0].checked;
 	var female = document.getElementsByName('sex')[1].checked;
 	var bmrDisplay = document.getElementById('bmr-result');	
 	var calorieBase;
 
+	// If the body fat input is empty, use MSJ, otherwise use KMA
 	if (inputBodyFat == '') {
 		mifflinStJeor(inputWeight, inputHeight, inputAge);
 		bmrDisplay.innerHTML = "BMR: " + calorieBase + " Calories";
@@ -92,24 +98,25 @@ function caloricNeed() {
 		bmrDisplay.innerHTML = "BMR: " + calorieBase + " Calories";
 	}
 
-//Mifflin St Jeor formula for calculating BMR
-function mifflinStJeor(weight, height, age) {
-	if (male) {
-		var mifflinStJeorBase = (9.99 * weight) + (6.25 * height) - (4.92 * age) + 5;
+	//Mifflin St Jeor formula for calculating BMR
+	function mifflinStJeor(weight, height, age) {
+		if (male) {
+			var mifflinStJeorBase = (9.99 * weight) + (6.25 * height) - (4.92 * age) + 5;
+		}
+		else if (female) {
+			var mifflinStJeorBase = (9.99 * weight) + (6.25 * height) - (4.92 * age) - 161;
+		}
+		calorieBase = Math.floor(mifflinStJeorBase);
 	}
-	else if (female) {
-		var mifflinStJeorBase = (9.99 * weight) + (6.25 * height) - (4.92 * age) - 161;
+
+	// Katch-McArdle formula for calculating BMR 
+	function katchMcArdle(weight, fat) {
+		var leanBodyMass = weight * ((100 - fat)/100);
+		var katchMcArdleBase = 370 + (21.6 * leanBodyMass);
+		calorieBase = Math.floor(katchMcArdleBase);
 	}
-	calorieBase = Math.floor(mifflinStJeorBase);
-}
 
-// Katch-McArdle formula for calculating BMR 
-function katchMcArdle(weight, fat) {
-	var leanBodyMass = weight * ((100 - fat)/100);
-	var katchMcArdleBase = 370 + (21.6 * leanBodyMass);
-	calorieBase = Math.floor(katchMcArdleBase);
-}
-
+	// Multiply the BMR by the appropriate multiplier
 	var totalCalories;
 	var activityLevel = document.getElementById('activity-level').options.selectedIndex;
 	switch (activityLevel) {
@@ -133,6 +140,7 @@ function katchMcArdle(weight, fat) {
 			totalCalories = calorieBase * 1.9;
 			break;
 	}
+
 
 	if (male && totalCalories < 1800) {
 		totalCalories = 1800;
@@ -161,32 +169,102 @@ function katchMcArdle(weight, fat) {
 	var displayNewTotal = document.getElementById('new-calorie-result');
 	var newTotalCalories;
 
-	if (inputGoal < inputWeight) {
-		newTotalCalories = Math.floor(totalCalories - calorieDifference);
-		// The calorie deficit cannot go past the BMR 
-		if (newTotalCalories < calorieBase) {
-			newTotalCalories = calorieBase;
+	if (inputGoal < healthyWeightLow || inputGoal > healthyWeightHigh) {
+		alert("This goal weight is outside the healthy BMI. Please set another weight.");
+		displayNewTotal.innerHTML = "Please enter a weight within the healthy BMI range.";
+	}
+	else {
+		// Weight loss
+		if (inputGoal < inputWeight) {
+			newTotalCalories = Math.floor(totalCalories - calorieDifference);
+			// The calorie deficit cannot go past the BMR 
+			if (newTotalCalories < calorieBase) {
+				newTotalCalories = calorieBase;
+			}
+			// The new total calorie cannot be less than the limit
 			if (male && calorieBase < 1800) {
 				newTotalCalories = 1800;
 			}
 			else if (female && calorieBase < 1200) {
 				newTotalCalories = 1200;
 			}
+			displayNewTotal.innerHTML = "Eat at a deficit of " + Math.floor(totalCalories - newTotalCalories) + " calories each day for a total of " + newTotalCalories + " calories.";
 		}
-		displayNewTotal.innerHTML = "Eat at a deficit of " + Math.floor(totalCalories - newTotalCalories) + " calories each day for a total of " + newTotalCalories + " calories.";
+		// Weight gain
+		else if (inputGoal > inputWeight) {
+			newTotalCalories = Math.floor(totalCalories + calorieDifference);
+			displayNewTotal.innerHTML = "Eat at a surplus of " + Math.floor(calorieDifference) + " calories each day for a total of " + newTotalCalories + " calories.";
+		}
 	}
 
-	else if (inputGoal > inputWeight) {
-		newTotalCalories = Math.floor(totalCalories + calorieDifference);
-		displayNewTotal.innerHTML = "Eat at a surplus of " + Math.floor(calorieDifference) + " calories each day for a total of " + newTotalCalories + " calories.";
+	// Method to be used later to calculate when to reach goal weight
+
+	function calculateGoalDate() {
+	// The TDEE is recalculated for each pound lost so that the estimate is more accurate
+		for (i = 0; i < weightArray.length; i++) {
+				mifflinStJeor(weightArray[i], inputHeight, inputAge);
+				var activityLevel = document.getElementById('activity-level').options.selectedIndex;
+				switch (activityLevel) {
+					case 0:
+						totalCalories = calorieBase * 1.2;
+						break;
+					case 1:
+						totalCalories = calorieBase * 1.3;
+						break;
+					case 2: 
+						totalCalories = calorieBase * 1.5;
+						break;
+					case 3:
+						totalCalories = calorieBase * 1.7;
+						break;
+					case 4: 
+						totalCalories = calorieBase * 1.9;
+						break;
+				}
+		}
+
+		// There are 3500 calories in a pound
+		// Dividing 3500 by the calorie difference will result in the number of days needed to lose one pound
+		calorieDifference = Math.abs(totalCalories - newTotalCalories);
+		numDays = (3500/calorieDifference);
+		daysArray.push(numDays);
+		
+		// Loop to find the total number of days to reach goal weight
+		var sumDays = 0;
+		for (var j=0; j < daysArray.length; j++) {
+			sumDays += daysArray[j];
+		}
+
+		// Add the total number of days to today's date to get an approximation
+		var todayDate = new Date();
+		todayDate.setDate(todayDate.getDate() + sumDays);
+
+		var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+
+		var dd = todayDate.getDate();
+		var mm = todayDate.getMonth() + 1;
+		var mmWritten = monthNames[todayDate.getMonth()];
+		var y = todayDate.getFullYear();
+
+		var formattedDate = mmWritten + ' ' + dd + ',' + ' ' + y 
+												+ ' ('+ mm + '/' + dd + '/' + y + ')';
+
+		document.getElementById('reach-goal-date').innerHTML = "You will reach your goal weight on " + formattedDate + ".";
 	}
 
 	var weightArray = [];
+	var daysArray = [];
+	var numDays;
+
+	// Weight loss, count down
 	while (inputWeight >= inputGoal) {
 		weightArray.push(inputWeight--);
-			for (i = 0; i < weightArray.length; i++) {
-				mifflinStJeor(inputWeight[i], inputHeight, inputAge);
-				console.log(weightArray[i]);
-			}
+		calculateGoalDate();
+	}
+
+	// Weight gain, count up
+	while (inputWeight <= inputGoal) {
+		weightArray.push(inputWeight++);
+		calculateGoalDate();
 	}
 }
