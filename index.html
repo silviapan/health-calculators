@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>BMI and Calorie Calculator</title>
+	<title>Health Calculators</title>
 		<link rel="stylesheet" type="text/css" href="CSS/normalize.css">
 		<link rel="stylesheet" type="text/css" href="CSS/style.css">
 
@@ -19,12 +19,22 @@
 </header>
 
 <div class="container">
+	<div class="intro-container">
+		<h2><strong>Personal Weight Journey</strong></h2>
+		<h3>
+			Weight management can be simplified to one principle: <strong>Eat less to lose weight and eat more to gain weight.</strong> 
+			<br>The question would then be, "But then how much is enough?" Below you can input the information about your body and get personalized results and recommendations. The calculators can be used as a guide for both weight loss and weight gain. Take the guesswork out of how much to eat each day.
+		</h3>
+		<p>Click the + for more information.</p>
+	</div>
+
 	<div class="bmi-container">
 		<input type="radio" name="system" id="imperial" checked="checked" onchange="convertUnits()">Imperial
 		<input type="radio" name="system" id="metric" onchange="convertUnits()">Metric<br>
 
 		<h2>1) Am I at a healthy weight?</h2>
-		<p>Body mass index (BMI) is a value that represents the relationship between your height and weight. While it cannot predict with absolute certainty the ideal weight and health of the individual, it can be a great indicator of body fat percentage and the associated health risks. For example, a high BMI is strongly correlated with a high level of excess body fat.</p>
+		<h3>Body Mass Index</h3>
+		<p>Body mass index (BMI) is a value that represents the relationship between your height and weight. While it cannot predict with absolute certainty the ideal weight and health of the individual, it can be a great indicator of body fat percentage and the associated health risks. For example, a high BMI is strongly correlated with a high level of excess body fat. Please fill out all fields to calculate your BMI.</p>
 		<br>
 		<p><strong>Please note that the calculator is intended for adult (ages 20+) use only.</strong> For a child and teen BMI calculator, <a href="https://www.cdc.gov/healthyweight/assessing/bmi/">click here</a>.</p>
 
@@ -45,7 +55,11 @@
 
 	<div class="calorie-container">
 		<h2>2) How much should I eat?</h2>
-		<p>All food contains calories, which are units of energy that your body needs to function. The basal metabolic rate (BMR) is the minimum amount of energy used by the body at rest. The total daily energry expenditure (TDEE) takes into account activity level and multiplies the BMR by the according activity level. One important theory to keep in mind is "Calories In, Calories Out". When calorie intake is greater than calorie expenditure, weight gain occurs. Conversely, when calorie intake is less than calorie expenditure, weight loss occurs.</p>
+		<h3>Basal Metabolic Rate</h3>
+		<p>All food contains calories, which are units of energy that your body utilizes to function. The basal metabolic rate <strong>(BMR)</strong> is the <strong>minimum</strong> amount of energy used by the body at rest, i.e. this is the amount of energy used only to keep your organs functioning. It varies according to your age, weight, height, sex, and body fat percentage.</p>
+
+		<h3>Total Daily Energy Expenditure</h3>
+	 	<p>The total daily energry expenditure <strong>(TDEE)</strong> is the <strong>total</strong> amount of energy needed in a day. It takes the BMR and multiplies it with a multiplier that reflects your daily activity level. Your TDEE is how much you would eat to maintain your current weight. One important theory to keep in mind is <strong>"Calories In, Calories Out"</strong>. When calorie intake is greater than calorie expenditure, weight gain occurs. Conversely, when calorie intake is less than calorie expenditure, weight loss occurs.</p>
 
 		<div class="calorie-calculator">
 		<h3 class="calculator-title">Calculate Caloric Need</h3>
@@ -107,8 +121,8 @@
 			<div class="submit-container">
 			<input type="submit" onclick="caloricNeed()" value="Calculate">
 			</div>
+			<span class="small-text">Note: The minimum calories used for women are 1200 Calories and men, 1800 Calories.</span>
 		</div>
-		Note: The minimum calories used for women are 1200 Calories and men, 1800 Calories.
 	
 		<h3>
 			The BMR is the minimum amount of energy needed to keep your body functioning. The TDEE is the total amount of energy used in a day with the given activity level. <br>

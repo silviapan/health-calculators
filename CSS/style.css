@@ -8,6 +8,10 @@ strong {
 	display: inline; 
 }
 
+.small-text {
+	font-size: 14px;
+}
+
 body {
 	background-color:#C0EAE5;
 	background-image: 
@@ -47,8 +51,11 @@ header {
 	background-color: rgba(255,255,255, 0.8); 
 	padding: 50px;
 }
+.intro-container {
+	padding: 0 40px;
+}
 
-.bmi-container, .calorie-container, .result-container {
+ .bmi-container, .calorie-container, .result-container {
 	padding: 40px 40px 0 40px; 
 }
 

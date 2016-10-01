@@ -184,7 +184,7 @@ function caloricNeed() {
 
 	document.getElementById('weight-warning').innerHTML = '';
 	displayNewTotal.innerHTML = '';
-	if (inputGoal < healthyWeightLow || inputGoal > healthyWeightHigh) {
+	if (inputGoal < healthyWeightLow) {
 		alert("Please enter a weight within the healthy BMI range.");
 		document.getElementById('weight-warning').innerHTML = 'This weight is outside the healthy BMI range. Please enter another weight.';
 	}
