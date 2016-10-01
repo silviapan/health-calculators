@@ -5,6 +5,9 @@
 		<link rel="stylesheet" type="text/css" href="CSS/normalize.css">
 		<link rel="stylesheet" type="text/css" href="CSS/style.css">
 
+		<link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Pavanam" rel="stylesheet">
+
 		<script type="text/javascript" src="JS/calculator.js"></script>
 
 </head>
@@ -12,114 +15,119 @@
 <body>
 
 <header>
-	<h1>Nutrition Calculators</h1>
-	<p>Managing your weight take 3 simple steps.</p>
+	<h1>Health Calculators</h1>
 </header>
 
 <div class="container">
-<div class="bmi-container">
-	<input type="radio" name="system" id="imperial" checked="checked" onchange="convertUnits()">Imperial
-	<input type="radio" name="system" id="metric" onchange="convertUnits()">Metric<br>
+	<div class="bmi-container">
+		<input type="radio" name="system" id="imperial" checked="checked" onchange="convertUnits()">Imperial
+		<input type="radio" name="system" id="metric" onchange="convertUnits()">Metric<br>
 
-	<h2>1) Am I at a healthy weight?</h2>
-	<p>Body mass index (BMI) is a value that represents the relationship between your height and weight. While it cannot predict with absolute certainty the ideal weight and health of the individual, it can be a great indicator of body fat percentage and the associated health risks. For example, a high BMI is strongly correlated with a high level of excess body fat. Please note that the calculator is intended for adult (ages 20+) use only. For a child and teen BMI calculator, <a href="https://www.cdc.gov/healthyweight/assessing/bmi/">click here</a>.</p>
+		<h2>1) Am I at a healthy weight?</h2>
+		<p>Body mass index (BMI) is a value that represents the relationship between your height and weight. While it cannot predict with absolute certainty the ideal weight and health of the individual, it can be a great indicator of body fat percentage and the associated health risks. For example, a high BMI is strongly correlated with a high level of excess body fat.</p>
+		<br>
+		<p><strong>Please note that the calculator is intended for adult (ages 20+) use only.</strong> For a child and teen BMI calculator, <a href="https://www.cdc.gov/healthyweight/assessing/bmi/">click here</a>.</p>
 
-	<div class="bmi-calculator">
-	<h3>Calculate BMI</h3>
-	<p>Enter your data to receive personalized suggestions.</p>
-	<form>
-		<input type="radio" name="sex" value="male">Male
-		<input type="radio" name="sex" value="female">Female<br>
-		<table>
-			<tr><td>Age: 		<input type="number" name="age" min="20" max="100"><span class="unit">years</span></td></tr>
-			<tr><td>Weight: <input type="number" name="weight" min="1" max="500" oninput="bodyMassIndex()"><span class="unit lb-kg">lb</span></td></tr>
-			<tr><td>Height: <input type="number" name="height" min="1" max="250" oninput="bodyMassIndex()"><span class="unit in-cm">in</span></td></tr>
-		</table>
-	</form>
+		<div class="bmi-calculator">
+		<h3 class="calculator-title">Calculate BMI</h3>
+		<form>
+			<input type="radio" name="sex" value="male">Male
+			<input type="radio" name="sex" value="female">Female<br>
+			<table>
+				<tr><td>Age: 		</td><td><input type="number" name="age" min="20" max="100"><span class="unit">yr</span></td></tr>
+				<tr><td>Weight: </td><td><input type="number" name="weight" min="1" max="500" oninput="bodyMassIndex()"><span class="unit lb-kg">lb</span></td></tr>
+				<tr><td>Height: </td><td><input type="number" name="height" min="1" max="250" oninput="bodyMassIndex()"><span class="unit in-cm">in</span></td></tr>
+			</table>
+		</form>
+		</div>
+		<h3><span class="display-result" id="bmi-result"></span></h3>
 	</div>
-	<h3>Result: <span id="bmi-result"></span></h3>
-</div>
 
-<div class="calorie-container">
-	<h2>2) How much should I eat?</h2>
-	<p>All food contains calories, which are units of energy that your body needs to function. The basal metabolic rate (BMR) is the minimum amount of energy used by the body at rest. The total daily energry expenditure (TDEE) takes into account activity level and multiplies the BMR by the according activity level. One important theory to keep in mind is "Calories In, Calories Out". When calorie intake is greater than calorie expenditure, weight gain occurs. Conversely, when calorie intake is less than calorie expenditure, weight loss occurs.</p>
+	<div class="calorie-container">
+		<h2>2) How much should I eat?</h2>
+		<p>All food contains calories, which are units of energy that your body needs to function. The basal metabolic rate (BMR) is the minimum amount of energy used by the body at rest. The total daily energry expenditure (TDEE) takes into account activity level and multiplies the BMR by the according activity level. One important theory to keep in mind is "Calories In, Calories Out". When calorie intake is greater than calorie expenditure, weight gain occurs. Conversely, when calorie intake is less than calorie expenditure, weight loss occurs.</p>
 
-	<div class="calorie-calculator">
-	<h3>Calculate Caloric Need</h3>
-	<form>
-		Body Fat: <input type="number" name="body-fat" min="0" max="100"><span class="unit">%</span> (Optional)<br>
-		Activity Level: 
-			<select id="activity-level">
-			  <option value="sedentary">Sedentary</option>
-			  <option value="lightly-active">Lightly Active</option>
-			  <option value="moderately-active">Moderately Active</option>
-			  <option value="very-active">Very Active</option>
-			  <option value="extremely-active">Extremely Active</option>
-			</select>
-
-			<div class="more-info">
-				Choose an activity level that best describes your lifestyle.
+		<div class="calorie-calculator">
+		<h3 class="calculator-title">Calculate Caloric Need</h3>
+			<form>
 				<table>
-					<tr>
-						<th>Activity Level</th>
-						<th>Description</th>
-					</tr>
-
-					<tr>
-						<td>Sedentary</td>
-						<td>Little to no exercise</td>
-					</tr>
-
-					<tr>
-						<td>Lightly active</td>
-						<td>Exercise or sports at least 20 minutes 1 - 3 days a week.</td>
-					</tr>
-
-					<tr>
-						<td>Moderately active</td>
-						<td>Exercise or sportsfor at least 30 - 60 minutes 3 - 5 days a week.</td>
-					</tr>
-
-					<tr>
-						<td>Very active</td>
-						<td>Intensive exercise or sports for at least 60 minutes 5 -7 days a week.</td>
-					</tr>
-
-					<tr>
-						<td>Extremely active</td>
-						<td>Intensive daily exercise or sports with multiple training sessions.</td>
-					</tr>
+					<tr><td>Body Fat: </td><td><input type="number" name="body-fat" min="0" max="100"><span class="unit">%</span> (Optional)</td>
+					<tr><td>Activity Level: </td>
+						<td>
+							<select id="activity-level">
+							  <option value="sedentary">Sedentary</option>
+							  <option value="lightly-active">Lightly Active</option>
+							  <option value="moderately-active">Moderately Active</option>
+							  <option value="very-active">Very Active</option>
+							  <option value="extremely-active">Extremely Active</option>
+							</select>
+						</td>
 				</table>
-				Note: If you are deciding between different activity levels, opt for the lower activity level because it is easy to overestimate caloric needs. Choose "Sedentary" if you are unsure which level to pick.
-			</div>
 
-			<br>
-		Goal: <input type="number" name="weight-goal" min="1" max="500"><span class="unit lb-kg">lb</span>
-		Rate:	
-			<select id="rate">
-			  <option value="average">Average</option>
-			  <option value="moderate">Moderate</option>
-			  <option value="fast">Fast</option>
-			</select>
-	</form>
+					<div class="more-info">
+						<table>
+							<tr>
+								<td>Sedentary</td><td>Little to no exercise</td>
+							</tr>
+
+							<tr>
+								<td>Lightly active</td><td>Exercise or sports for at least 20 minutes 1 - 3 days a week.</td>
+							</tr>
+
+							<tr>
+								<td>Moderately active</td><td>Exercise or sports for at least 30 - 60 minutes 3 - 5 days a week.</td>
+							</tr>
+
+							<tr>
+								<td>Very active</td><td>Intensive exercise or sports for at least 60 minutes 5 -7 days a week.</td>
+							</tr>
+
+							<tr>
+								<td>Extremely active</td><td>Intensive daily exercise or sports with multiple training sessions.</td>
+							</tr>
+						</table>
+						Note: If you have trouble deciding between the options, opt for the lower activity level because it is easy to overestimate caloric needs. Choose "Sedentary" if you are unsure which level to pick.
+				</div>
+				<table>
+				<tr>
+					<td>Goal: <input type="number" name="goal" min="1" max="500"><span class="unit lb-kg">lb</span></td>
+					<td>
+						Rate Change:	
+							<select id="rate">
+							  <option value="average">Average</option>
+							  <option value="moderate">Moderate</option>
+							  <option value="fast">Fast</option>
+							</select>
+					</td>
+					</tr></table>
+					<div class="reset-container">
+					<input type="reset" name="reset">
+					</div>
+			</form>
+			<div class="submit-container">
+			<input type="submit" onclick="caloricNeed()" value="Calculate">
+			</div>
+		</div>
+		Note: The minimum calories used for women are 1200 Calories and men, 1800 Calories.
 	
-	<input type="submit" onclick="caloricNeed()">
-	<input type="reset" name="reset">
+		<h3>
+			The BMR is the minimum amount of energy needed to keep your body functioning. The TDEE is the total amount of energy used in a day with the given activity level. <br>
+			Based on the given information, your personalized results are below:
+			<span class="display-result">
+				<span id="bmr-result"></span>
+				<span id="tdee-result"></span>
+				<span id="new-calorie-result"></span>
+				<span id="reach-goal-date"></span>
+				<strong><span id="empty-warning"></span></strong>
+				<strong><span id="weight-warning"></span></strong>
+			</span>
+		</h3>
 	</div>
 
-	<h3><span id="bmr-result"></span></h3>
-	<h3><span id="tdee-result"></span></h3>
-
-	<h3><span id="weight-warning"></span></h3>
-	<h3><span id="new-calorie-result"></span></h3>
-	<h3><span id="reach-goal-date"></span></h3>
-
-	Note: The minimum calories for women used are 1200 Calories and men, 1800 Calories.
-
-</div>
-
-<h2>3) Track Calories and Weight</h2>
-Disclaimer: The calculators are created with intention to be used as tools to help manage weight. The results are suggestions. Please consult with a physician before starting any regimen.
+	<div class="result-container">
+		<h2>3) How can I reach my goal?</h2>
+		Disclaimer: The calculators are created with intention to be used as tools to help manage weight. The results are suggestions. Please consult with a physician before starting any regimen.
+	</div>
 
 </div>
 </body>

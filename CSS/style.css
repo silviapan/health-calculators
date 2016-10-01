@@ -1,45 +1,153 @@
+*, body {
+	font-family: 'Pavanam', sans-serif;
+	font-size: 18px;
+}
+
+strong { 
+	font-weight: bold;
+	display: inline; 
+}
+
+body {
+	background-color:#C0EAE5;
+	background-image: 
+	radial-gradient(circle at 100% 150%, #C0EAE5 24%, white 25%, white 28%, #C0EAE5 29%, #C0EAE5 36%, white 36%, white 40%, transparent 40%, transparent),
+	radial-gradient(circle at 0    150%, #C0EAE5 24%, white 25%, white 28%, #C0EAE5 29%, #C0EAE5 36%, white 36%, white 40%, transparent 40%, transparent),
+	radial-gradient(circle at 50%  100%, white 10%, #C0EAE5 11%, #C0EAE5 23%, white 24%, white 30%, #C0EAE5 31%, #C0EAE5 43%, white 44%, white 50%, #C0EAE5 51%, #C0EAE5 63%, white 64%, white 71%, transparent 71%, transparent),
+	radial-gradient(circle at 100% 50%, white 5%, #C0EAE5 6%, #C0EAE5 15%, white 16%, white 20%, #C0EAE5 21%, #C0EAE5 30%, white 31%, white 35%, #C0EAE5 36%, #C0EAE5 45%, white 46%, white 49%, transparent 50%, transparent),
+	radial-gradient(circle at 0    50%, white 5%, #C0EAE5 6%, #C0EAE5 15%, white 16%, white 20%, #C0EAE5 21%, #C0EAE5 30%, white 31%, white 35%, #C0EAE5 36%, #C0EAE5 45%, white 46%, white 49%, transparent 50%, transparent);
+	background-size:20px 10px;
+}
+
 header {
 	height: 200px;
-	background-color: #5686D7; 
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	color: #fff;
+	border-bottom: 1px solid #2AAFA0;
+
+	background-color:#C0EAE5;
+	background-image: 
+		radial-gradient(circle at 100% 150%, #C0EAE5 24%, white 25%, white 28%, #C0EAE5 29%, #C0EAE5 36%, white 36%, white 40%, transparent 40%, transparent),
+		radial-gradient(circle at 0    150%, #C0EAE5 24%, white 25%, white 28%, #C0EAE5 29%, #C0EAE5 36%, white 36%, white 40%, transparent 40%, transparent),
+		radial-gradient(circle at 50%  100%, white 10%, #C0EAE5 11%, #C0EAE5 23%, white 24%, white 30%, #C0EAE5 31%, #C0EAE5 43%, white 44%, white 50%, #C0EAE5 51%, #C0EAE5 63%, white 64%, white 71%, transparent 71%, transparent),
+		radial-gradient(circle at 100% 50%, white 5%, #C0EAE5 6%, #C0EAE5 15%, white 16%, white 20%, #C0EAE5 21%, #C0EAE5 30%, white 31%, white 35%, #C0EAE5 36%, #C0EAE5 45%, white 46%, white 49%, transparent 50%, transparent),
+		radial-gradient(circle at 0    50%, white 5%, #C0EAE5 6%, #C0EAE5 15%, white 16%, white 20%, #C0EAE5 21%, #C0EAE5 30%, white 31%, white 35%, #C0EAE5 36%, #C0EAE5 45%, white 46%, white 49%, transparent 50%, transparent);
+	background-size:150px 75px;
 }
 
-
 .container {
-	width: 80%;
+	width: 90%;
 	min-width: 400px;
 	margin: 0 auto;
 	font-size: 18px;
+	line-height: 24px;
+	font-family: 'Pavanam', sans-serif;
+	background-color: rgba(255,255,255, 0.8); 
+	padding: 50px;
 }
 
+.bmi-container, .calorie-container, .result-container {
+	padding: 40px 40px 0 40px; 
+}
 
 .bmi-calculator, .calorie-calculator {
-	border: 1px solid black;
+	border: 4px solid #2AAFA0;
 	border-radius: 10px;
-	width: 400px;
+	width: 500px;
+	margin-top: 20px;
+	padding: 15px;
+}
+
+.more-info {
+	padding: 10px;
+}
+
+.display-result {
+	padding: 20px 0 0 40px;
 }
 
 .unit {
-	background-color: #ddd;
+	background-color: #C0EAE5;
 	width: 100px;
 	height: 40px;
 	border-radius: 3px;
+	padding: 3px 8px;
+	margin: 0 5px;
+}
+
+td {
+	padding: 3px 15px 3px 0;
+}
+
+h1, h2 {
+	font-family: 'Arimo', sans-serif;
 }
 
 h1 {
-	font-size: 48px;
+	font-size: 80px;
 	text-align: center;
+	font-weight: bold;
 }
 
 h2 {
 	font-size: 36px;
-	color: #0F56CF;
+	color: #000;
+	padding: 15px 0;
+
 }
 
 h3 {
 	font-size: 24px;
+	line-height: 36px;
+	padding: 5px 0;
+}
+
+.calculator-title {
+	padding-bottom: 20px;
+}
+
+a {
+	color: #2AAFA0;
+}
+
+a:hover {
+	color: #1985A1;
+}
+
+th {
+	text-align: left;
+}
+
+input[type=submit], input[type=reset] {
+	background-color: #C0EAE5;
+	border: 1px solid #2AAFA0;;
+	border-radius: 3px;
+	padding: 5px 8px;
+	margin: 20px 0 10px 0;
+	cursor: pointer;
+}
+
+input[type=submit]:hover, input[type=reset]:hover {
+	background-color: #2AAFA0;
+}
+
+input[type=submit] {
+	position: relative;
+	left: 160px;
+}
+
+input[type=reset] {
+	position: absolute;
+	left: 430px;
+}
+
+.display-result {
+	display: flex;
+	flex-direction: column;
+}
+
+.warning {
+	font-weight: bold;
 }

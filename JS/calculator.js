@@ -36,7 +36,7 @@ function bodyMassIndex() {
 	}
 
 	//Display the BMI results and suggestions
-	var displayBmi = "Your body mass index(BMI) is " + bodyMassIndexResult + ". You are considered ";
+	var displayBmi = "Your body mass index (BMI) is " + bodyMassIndexResult + ". You are considered ";
 
 	var healthyWeightLow = Math.floor(18.5 * Math.pow(inputHeight/100, 2));
 	var healthyWeightHigh = Math.floor(24.9 * Math.pow(inputHeight/100, 2));
@@ -67,7 +67,7 @@ function caloricNeed() {
 	var inputWeight = parseInt(document.getElementsByName('weight')[0].value);
 	var inputHeight = parseInt(document.getElementsByName('height')[0].value);
 	var inputAge = parseInt(document.getElementsByName('age')[0].value);
-	var inputGoal = parseInt(document.getElementsByName('weight-goal')[0].value);
+	var inputGoal = parseInt(document.getElementsByName('goal')[0].value);
 	var inputBodyFat = document.getElementsByName('body-fat')[0].value;
 
 	if (document.getElementById('imperial').checked) {
@@ -77,6 +77,8 @@ function caloricNeed() {
   	// Convert in to cm
   	inputHeight *= 2.54;
 	}
+
+	validateForm();
 
 	// Calculate the healthy weight range in order to limit extremely low or high goal inputs
 	var healthyWeightLow = Math.floor(18.5 * Math.pow(inputHeight/100, 2));
@@ -91,11 +93,16 @@ function caloricNeed() {
 	// If the body fat input is empty, use MSJ, otherwise use KMA
 	if (inputBodyFat == '') {
 		mifflinStJeor(inputWeight, inputHeight, inputAge);
-		bmrDisplay.innerHTML = "BMR: " + calorieBase + " Calories";
+		if (isNaN(calorieBase)) {
+			return '';
+		}
+		else {
+			bmrDisplay.innerHTML = "Your BMR: " + calorieBase + " Calories";
+		}
 	}
 	else {
 		katchMcArdle(inputWeight, parseInt(inputBodyFat));
-		bmrDisplay.innerHTML = "BMR: " + calorieBase + " Calories";
+		bmrDisplay.innerHTML = "Your BMR: " + calorieBase + " Calories";
 	}
 
 	//Mifflin St Jeor formula for calculating BMR
@@ -141,7 +148,6 @@ function caloricNeed() {
 			break;
 	}
 
-
 	if (male && totalCalories < 1800) {
 		totalCalories = 1800;
 	}
@@ -150,7 +156,14 @@ function caloricNeed() {
 	}
 
 	var calorieDisplay = document.getElementById('tdee-result');
-	calorieDisplay.innerHTML = "TDEE: " + Math.floor(totalCalories) + " Calories";
+
+	if (isNaN(totalCalories)) {
+		return '';
+	}
+	else {
+		calorieDisplay.innerHTML = "Your TDEE: " + Math.floor(totalCalories) + " Calories";
+	}
+	
 
 	var rateChange = document.getElementById('rate').options.selectedIndex;
 	var calorieDifference;
@@ -169,9 +182,11 @@ function caloricNeed() {
 	var displayNewTotal = document.getElementById('new-calorie-result');
 	var newTotalCalories;
 
+	document.getElementById('weight-warning').innerHTML = '';
+	displayNewTotal.innerHTML = '';
 	if (inputGoal < healthyWeightLow || inputGoal > healthyWeightHigh) {
-		alert("This goal weight is outside the healthy BMI. Please set another weight.");
-		displayNewTotal.innerHTML = "Please enter a weight within the healthy BMI range.";
+		alert("Please enter a weight within the healthy BMI range.");
+		document.getElementById('weight-warning').innerHTML = 'This weight is outside the healthy BMI range. Please enter another weight.';
 	}
 	else {
 		// Weight loss
@@ -188,18 +203,19 @@ function caloricNeed() {
 			else if (female && calorieBase < 1200) {
 				newTotalCalories = 1200;
 			}
-			displayNewTotal.innerHTML = "Eat at a deficit of " + Math.floor(totalCalories - newTotalCalories) + " calories each day for a total of " + newTotalCalories + " calories.";
+			displayNewTotal.innerHTML = "In order to lose weight, eat at a deficit of " + Math.floor(totalCalories - newTotalCalories) + " Calories each day. Your new recommended intake is " + newTotalCalories + " Calories.";
 		}
 		// Weight gain
 		else if (inputGoal > inputWeight) {
 			newTotalCalories = Math.floor(totalCalories + calorieDifference);
-			displayNewTotal.innerHTML = "Eat at a surplus of " + Math.floor(calorieDifference) + " calories each day for a total of " + newTotalCalories + " calories.";
+			displayNewTotal.innerHTML = "In order to gain weight, eat at a surplus of " + Math.floor(calorieDifference) + " Calories each day. Your new recommended intake is " + newTotalCalories + " Calories.";
 		}
 	}
 
 	// Method to be used later to calculate when to reach goal weight
 
 	function calculateGoalDate() {
+		document.getElementById('reach-goal-date').innerHTML = '';
 	// The TDEE is recalculated for each pound lost so that the estimate is more accurate
 		for (i = 0; i < weightArray.length; i++) {
 				mifflinStJeor(weightArray[i], inputHeight, inputAge);
@@ -239,7 +255,7 @@ function caloricNeed() {
 		var todayDate = new Date();
 		todayDate.setDate(todayDate.getDate() + sumDays);
 
-		var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+		var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 		var dd = todayDate.getDate();
 		var mm = todayDate.getMonth() + 1;
@@ -249,7 +265,12 @@ function caloricNeed() {
 		var formattedDate = mmWritten + ' ' + dd + ',' + ' ' + y 
 												+ ' ('+ mm + '/' + dd + '/' + y + ')';
 
+		if (isNaN(numDays)) {
+			return '';
+		}
+		else {
 		document.getElementById('reach-goal-date').innerHTML = "You will reach your goal weight on " + formattedDate + ".";
+		}
 	}
 
 	var weightArray = [];
@@ -266,5 +287,33 @@ function caloricNeed() {
 	while (inputWeight <= inputGoal) {
 		weightArray.push(inputWeight++);
 		calculateGoalDate();
+	}
+}
+
+function validateForm() {
+	var checkArray = [];
+	var checkSex = document.forms[0].sex.value;
+	var checkAge = document.forms[0].age.value;
+	var checkWeight = document.forms[0].weight.value;
+	var checkHeight = document.forms[0].height.value;
+	var checkGoal = document.forms[1].goal.value;
+
+	var bmr = document.getElementById('bmr-result');
+	var tdee = document.getElementById('tdee-result');
+	var newTdee = document.getElementById('new-calorie-result');
+	var goalDate = document.getElementById('reach-goal-date');
+
+	checkArray.push(checkSex, checkAge, checkWeight, checkHeight, checkGoal);
+	console.log(checkArray);
+
+	document.getElementById('empty-warning').innerHTML = '';
+
+	for (i = 0; i < checkArray.length; i++) {
+		if (checkArray[i] == null || checkArray[i] == '') {
+			document.getElementById('empty-warning').innerHTML = "Please fill all required fields.";
+		}
+		else {
+			return '';
+		}
 	}
 }
