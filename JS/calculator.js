@@ -1,30 +1,61 @@
-function convertUnits() {
-	var weightUnits = document.getElementsByClassName('lb-kg');
-	var heightUnits = document.getElementsByClassName('in-cm');
+function toggleMoreInfo(hiddenTextId) {
+	var hiddenText = document.getElementById(hiddenTextId);
 
-	if(document.getElementById('imperial').checked) {
-  	weightUnits[0].innerHTML = "lb";
-  	weightUnits[1].innerHTML = "lb";
-  	heightUnits[0].innerHTML = "in";
+	if (hiddenText.classList.contains('expanded')) {
+		document.getElementById('plus-minus-sign').innerHTML = '[+]';
+		hiddenText.classList.remove('expanded');
 	}
 	else {
-		weightUnits[0].innerHTML = "kg";
-		weightUnits[1].innerHTML = "kg";
-		heightUnits[0].innerHTML = "cm";
+		document.getElementById('plus-minus-sign').innerHTML = '[-]';
+		hiddenText.classList.add('expanded');
 	}
 }
 
-// Calculate BMI with weight and height
-function bodyMassIndex() {
-	// Get the user's weight and height input
+// Toggle appearance of the units based on checked input
+function convertUnits() {
+	var weightUnits = document.getElementsByClassName('lb-kg');
+	var heightImperial = document.getElementById('height-ft-in');
+	var heightMetric = document.getElementById('height-cm');
+
+	if(document.getElementById('imperial').checked) {
+		heightImperial.style.display = 'unset';
+		heightMetric.style.display = 'none';
+  	weightUnits[0].innerHTML = "lb";
+  	weightUnits[1].innerHTML = "lb";
+	}
+	else {
+		heightImperial.style.display = 'none';
+		heightMetric.style.display = 'unset';
+		weightUnits[0].innerHTML = "kg";
+		weightUnits[1].innerHTML = "kg";
+	}
+}
+
+// Convert imperial to metric units for ease of calculating
+var convertMeasurements = function () {
 	var inputWeight = parseInt(document.getElementsByName('weight')[0].value);
-	var inputHeight = parseInt(document.getElementsByName('height')[0].value);
+	var inputHeightFt = parseInt(document.getElementsByName('height')[0].value);
+	var inputHeightIn = parseInt(document.getElementsByName('height')[1].value);
+	var inputHeightCm = parseInt(document.getElementsByName('height')[2].value);
+	var inputGoal = parseInt(document.getElementsByName('goal')[0].value);
 
 	if(document.getElementById('imperial').checked) {
 		// Convert lb to kg and in to cm
 		inputWeight *= 0.45359237;
-		inputHeight *= 2.54;
+		inputHeight = ((inputHeightFt * 12) + inputHeightIn) * 2.54;
+		inputGoal *= 0.45359237;
 	}
+	else {
+		inputHeight = inputHeightCm;
+	}
+	return [inputWeight, inputHeight, inputGoal];
+};
+	
+// Calculate BMI with weight and height
+function bodyMassIndex() {
+	var measurements = convertMeasurements();
+	var inputWeight = measurements[0];
+	var inputHeight = measurements[1];
 
 	// Formula for calculating BMI
 	// The height is divided by 100 because the input is now in cm but the formula uses m
@@ -64,25 +95,20 @@ function bodyMassIndex() {
 }
 
 function caloricNeed() {
-	var inputWeight = parseInt(document.getElementsByName('weight')[0].value);
-	var inputHeight = parseInt(document.getElementsByName('height')[0].value);
+	//Convert the input weight and height
+	var measurements = convertMeasurements();
+	var inputWeight = measurements[0];
+	var inputHeight = measurements[1];
+	var inputGoal = measurements[2];
+
 	var inputAge = parseInt(document.getElementsByName('age')[0].value);
-	var inputGoal = parseInt(document.getElementsByName('goal')[0].value);
 	var inputBodyFat = document.getElementsByName('body-fat')[0].value;
 
-	if (document.getElementById('imperial').checked) {
-		// Convert lb to kg
-  	inputWeight *= 0.45359237;
-  	inputGoal *= 0.45359237;
-  	// Convert in to cm
-  	inputHeight *= 2.54;
-	}
-
+	//Make sure that all of the form is completed
 	validateForm();
 
-	// Calculate the healthy weight range in order to limit extremely low or high goal inputs
+	// Calculate the healthy weight range in order to limit extremely low goal inputs
 	var healthyWeightLow = Math.floor(18.5 * Math.pow(inputHeight/100, 2));
-	var healthyWeightHigh = Math.floor(24.9 * Math.pow(inputHeight/100, 2));
 
 	// Declare variables to be used in formulas for calculating calories
 	var male = document.getElementsByName('sex')[0].checked;
@@ -212,7 +238,7 @@ function caloricNeed() {
 		}
 	}
 
-	// Method to be used later to calculate when to reach goal weight
+	// Method to used to calculate when to reach goal weight
 
 	function calculateGoalDate() {
 		document.getElementById('reach-goal-date').innerHTML = '';
@@ -304,7 +330,6 @@ function validateForm() {
 	var goalDate = document.getElementById('reach-goal-date');
 
 	checkArray.push(checkSex, checkAge, checkWeight, checkHeight, checkGoal);
-	console.log(checkArray);
 
 	document.getElementById('empty-warning').innerHTML = '';
 

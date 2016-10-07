@@ -12,7 +12,7 @@
 
 </head>
 
-<body>
+<body onload="convertUnits()">
 
 <header>
 	<h1>Health Calculators</h1>
@@ -25,7 +25,7 @@
 			Weight management can be simplified to one principle: <strong>Eat less to lose weight and eat more to gain weight.</strong> 
 			<br>The question would then be, "But then how much is enough?" Below you can input the information about your body and get personalized results and recommendations. The calculators can be used as a guide for both weight loss and weight gain. Take the guesswork out of how much to eat each day.
 		</h3>
-		<p>Click the + for more information.</p>
+		<p>Click the <span class="plus-sign">+</span> for more information.</p>
 	</div>
 
 	<div class="bmi-container">
@@ -36,7 +36,7 @@
 		<h3>Body Mass Index</h3>
 		<p>Body mass index (BMI) is a value that represents the relationship between your height and weight. While it cannot predict with absolute certainty the ideal weight and health of the individual, it can be a great indicator of body fat percentage and the associated health risks. For example, a high BMI is strongly correlated with a high level of excess body fat. Please fill out all fields to calculate your BMI.</p>
 		<br>
-		<p><strong>Please note that the calculator is intended for adult (ages 20+) use only.</strong> For a child and teen BMI calculator, <a href="https://www.cdc.gov/healthyweight/assessing/bmi/">click here</a>.</p>
+		<p><strong>Please note that the calculator is intended for adult (ages 20+) use only.</strong> For a child and teen BMI calculator, <a title="Click here for child and teen BMI calculator" href="https://www.cdc.gov/healthyweight/assessing/bmi/">click here</a>.</p>
 
 		<div class="bmi-calculator">
 		<h3 class="calculator-title">Calculate BMI</h3>
@@ -46,7 +46,13 @@
 			<table>
 				<tr><td>Age: 		</td><td><input type="number" name="age" min="20" max="100"><span class="unit">yr</span></td></tr>
 				<tr><td>Weight: </td><td><input type="number" name="weight" min="1" max="500" oninput="bodyMassIndex()"><span class="unit lb-kg">lb</span></td></tr>
-				<tr><td>Height: </td><td><input type="number" name="height" min="1" max="250" oninput="bodyMassIndex()"><span class="unit in-cm">in</span></td></tr>
+				<tr><td>Height: </td>
+									<td id="height-ft-in"><input type="number" name="height" min="1" max="10" oninput="bodyMassIndex()"><span class="unit">ft</span>
+											<input type="number" name="height" min="0" max="11" oninput="bodyMassIndex()"><span class="unit">in</span>
+									</td>
+
+									<td id="height-cm"><input type="number" name="height" min="1" max="250" oninput="bodyMassIndex()"><span class="unit">cm</span></div></td>
+				</tr>
 			</table>
 		</form>
 		</div>
@@ -114,19 +120,23 @@
 							</select>
 					</td>
 					</tr></table>
-					<div class="reset-container">
 					<input type="reset" name="reset">
-					</div>
 			</form>
-			<div class="submit-container">
 			<input type="submit" onclick="caloricNeed()" value="Calculate">
-			</div>
-			<span class="small-text">Note: The minimum calories used for women are 1200 Calories and men, 1800 Calories.</span>
 		</div>
 	
 		<h3>
 			The BMR is the minimum amount of energy needed to keep your body functioning. The TDEE is the total amount of energy used in a day with the given activity level. <br>
-			Based on the given information, your personalized results are below:
+			Based on the given information, your personalized results are below: 
+			<a class="more-info-link" title="Show more information" href="javascript:void(0);" onclick="toggleMoreInfo('test-div', this)"><strong><span id="plus-minus-sign">[+]</span></strong></a>
+		<div class="hidden" id="test-div">
+			I AM INVISIBLE, BUT WHEN + IS PRESSED I AM VISIBILE!!!!!!!! 
+			<p> S SKLSDKFWOERIWOE R</p>
+			<h3>wuwer4290384 dfsdklfj srwue042834erjklsdjsldkf </h3>
+			<h2>werij 3984 dsfjl weiouPQ hsjkdhf 3457</h2>
+			<p>weroiwue</p>
+			</div>
+
 			<span class="display-result">
 				<span id="bmr-result"></span>
 				<span id="tdee-result"></span>
@@ -141,6 +151,8 @@
 	<div class="result-container">
 		<h2>3) How can I reach my goal?</h2>
 		Disclaimer: The calculators are created with intention to be used as tools to help manage weight. The results are suggestions. Please consult with a physician before starting any regimen.
+
+
 	</div>
 
 </div>
