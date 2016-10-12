@@ -8,6 +8,24 @@ strong {
 	display: inline; 
 }
 
+sup { 
+  vertical-align: super;
+  font-size: x-small;
+}
+
+sub {
+	vertical-align: sub;
+	font-size: small;
+}
+
+ul {
+	margin-left: 20px;
+}
+
+ul > li {
+	margin-left: 20px;
+}
+
 body {
 	background-color:#C0EAE5;
 	background-image: 
@@ -38,6 +56,7 @@ header {
 }
 
 .container {
+	height: 100%;
 	width: 90%;
 	min-width: 400px;
 	margin: 0 auto;
@@ -47,11 +66,8 @@ header {
 	background-color: rgba(255,255,255, 0.8); 
 	padding: 50px;
 }
-.intro-container {
-	padding: 0 40px;
-}
 
- .bmi-container, .calorie-container, .result-container {
+.intro-container, .bmi-container, .calorie-container, .result-container {
 	padding: 40px 40px 0 40px; 
 }
 
@@ -59,16 +75,11 @@ header {
 	border: 4px solid #2AAFA0;
 	border-radius: 10px;
 	width: 500px;
-	margin-top: 20px;
 	padding: 15px;
 }
 
 .more-info {
 	padding: 10px;
-}
-
-.display-result {
-	margin: 20px 0 0 40px;
 }
 
 .unit {
@@ -78,6 +89,9 @@ header {
 	border-radius: 3px;
 	padding: 3px 8px;
 	margin: 0 5px;
+}
+th {
+	font-weight: bold;
 }
 
 td {
@@ -105,6 +119,7 @@ h3 {
 	font-size: 24px;
 	line-height: 36px;
 	padding: 5px 0;
+	display: inline;
 }
 
 .calculator-title {
@@ -121,6 +136,14 @@ a:hover {
 
 th {
 	text-align: left;
+}
+
+.ft-in {
+	width: 40px;
+}
+
+input[type=number] {
+		padding-left: 5px;
 }
 
 input[type=submit], input[type=reset] {
@@ -146,9 +169,18 @@ input[type=reset] {
 	left: 430px;
 }
 
+.display-result::before {
+	content: 'Results:';
+	font-weight: bold;
+}
+
 .display-result {
 	display: flex;
 	flex-direction: column;
+	margin-top: 20px;
+	border-radius: 3px;
+	background-color: #e6f7f5;
+	padding: 20px;
 }
 
 .warning {
@@ -159,26 +191,24 @@ input[type=reset] {
 	display: none;
 }
 
-.more-info-link {
-	text-decoration: none;
-}
-
-.hidden {
-	display: none;
-}
-
-.expanded {
-	display: block;
-	animation: slide-down .2s ease-out;
-}
-
-.hidden, .expanded {
-	width: 90%;
+details {
 	padding: 20px;
-	margin: 0 auto;
 }
 
-@keyframes slide-down {
-  0% { opacity: 0; transform: translateY(-5%); }   
-  100% { opacity: 1; transform: translateY(0); }
+.details-info {
+	padding: 20px;
+}
+
+.formula {
+	display: block;
+	background-color: #e6f7f5;
+	padding: 20px;
+	width: 50%;
+	border-radius: 3px;
+	font-size: 20px;
+}
+
+cite {
+	font-size: 14px;
+	white-space: pre-line;
 }

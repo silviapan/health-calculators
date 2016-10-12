@@ -1,16 +1,3 @@
-function toggleMoreInfo(hiddenTextId) {
-	var hiddenText = document.getElementById(hiddenTextId);
-
-	if (hiddenText.classList.contains('expanded')) {
-		document.getElementById('plus-minus-sign').innerHTML = '[+]';
-		hiddenText.classList.remove('expanded');
-	}
-	else {
-		document.getElementById('plus-minus-sign').innerHTML = '[-]';
-		hiddenText.classList.add('expanded');
-	}
-}
-
 // Toggle appearance of the units based on checked input
 function convertUnits() {
 	var weightUnits = document.getElementsByClassName('lb-kg');
@@ -128,7 +115,7 @@ function caloricNeed() {
 	}
 	else {
 		katchMcArdle(inputWeight, parseInt(inputBodyFat));
-		bmrDisplay.innerHTML = "Your BMR: " + calorieBase + " Calories";
+		bmrDisplay.innerHTML = "Your BMR: " + calorieBase + " Calories.";
 	}
 
 	//Mifflin St Jeor formula for calculating BMR
