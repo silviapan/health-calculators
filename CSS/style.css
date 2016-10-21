@@ -90,6 +90,7 @@ header {
 	padding: 3px 8px;
 	margin: 0 5px;
 }
+
 th {
 	font-weight: bold;
 }
@@ -132,10 +133,6 @@ a {
 
 a:hover {
 	color: #20867a;
-}
-
-th {
-	text-align: left;
 }
 
 .ft-in {
@@ -212,3 +209,21 @@ cite {
 	font-size: 14px;
 	white-space: pre-line;
 }
+
+#weight-change-info {
+	display: none;
+}
+
+#weight-change-table {
+	border: 1px solid #000;
+	opacity: 0;
+	height: 0;
+	line-height: 0;
+}
+
+#weight-change-table td {
+	text-align: center;
+	width: 110px;
+	padding: 0 10px;
+}
+

@@ -138,35 +138,39 @@ function caloricNeed() {
 
 	// Multiply the BMR by the appropriate multiplier
 	var totalCalories;
-	var activityLevel = document.getElementById('activity-level').options.selectedIndex;
-	switch (activityLevel) {
-		case 0:
-			totalCalories = calorieBase * 1.2;
-			break;
+	function calculateTotalCalories(){
+		var activityLevel = document.getElementById('activity-level').options.selectedIndex;
+		switch (activityLevel) {
+			case 0:
+				totalCalories = calorieBase * 1.2;
+				break;
 
-		case 1:
-			totalCalories = calorieBase * 1.3;
-			break;
+			case 1:
+				totalCalories = calorieBase * 1.3;
+				break;
 
-		case 2: 
-			totalCalories = calorieBase * 1.5;
-			break;
+			case 2: 
+				totalCalories = calorieBase * 1.5;
+				break;
 
-		case 3:
-			totalCalories = calorieBase * 1.7;
-			break;
+			case 3:
+				totalCalories = calorieBase * 1.7;
+				break;
 
-		case 4: 
-			totalCalories = calorieBase * 1.9;
-			break;
+			case 4: 
+				totalCalories = calorieBase * 1.9;
+				break;
+		}
+
+		if (male && totalCalories < 1800) {
+			totalCalories = 1800;
+		}
+		else if (female && totalCalories < 1200) {
+			totalCalories = 1200;
+		}
+		totalCalories = Math.floor(totalCalories);
 	}
-
-	if (male && totalCalories < 1800) {
-		totalCalories = 1800;
-	}
-	else if (female && totalCalories < 1200) {
-		totalCalories = 1200;
-	}
+	calculateTotalCalories();
 
 	var calorieDisplay = document.getElementById('tdee-result');
 
@@ -174,10 +178,9 @@ function caloricNeed() {
 		return '';
 	}
 	else {
-		calorieDisplay.innerHTML = "Your TDEE: " + Math.floor(totalCalories) + " Calories";
+		calorieDisplay.innerHTML = "Your TDEE: " + totalCalories + " Calories";
 	}
 	
-
 	var rateChange = document.getElementById('rate').options.selectedIndex;
 	var calorieDifference;
 	switch (rateChange) {
@@ -216,40 +219,41 @@ function caloricNeed() {
 			else if (female && calorieBase < 1200) {
 				newTotalCalories = 1200;
 			}
-			displayNewTotal.innerHTML = "In order to lose weight, eat at a deficit of " + Math.floor(totalCalories - newTotalCalories) + " Calories each day. Your new recommended intake is " + newTotalCalories + " Calories.";
+			displayNewTotal.innerHTML = "In order to lose weight, eat at a deficit of " + Math.floor(totalCalories - newTotalCalories) + " Calories each day. The recommended intake for your current weight is " + newTotalCalories + " Calories.";
 		}
 		// Weight gain
 		else if (inputGoal > inputWeight) {
 			newTotalCalories = Math.floor(totalCalories + calorieDifference);
-			displayNewTotal.innerHTML = "In order to gain weight, eat at a surplus of " + Math.floor(calorieDifference) + " Calories each day. Your new recommended intake is " + newTotalCalories + " Calories.";
+			displayNewTotal.innerHTML = "In order to gain weight, eat at a surplus of " + Math.floor(calorieDifference) + " Calories each day. The recommended intake for your current weight is " + newTotalCalories + " Calories.";
 		}
 	}
 
 	// Method to used to calculate when to reach goal weight
-
 	function calculateGoalDate() {
-		document.getElementById('reach-goal-date').innerHTML = '';
+		var goalDate = document.getElementById('reach-goal-date');
+		goalDate.innerHTML = '';			
+
 	// The TDEE is recalculated for each pound lost so that the estimate is more accurate
 		for (i = 0; i < weightArray.length; i++) {
-				mifflinStJeor(weightArray[i], inputHeight, inputAge);
-				var activityLevel = document.getElementById('activity-level').options.selectedIndex;
-				switch (activityLevel) {
-					case 0:
-						totalCalories = calorieBase * 1.2;
-						break;
-					case 1:
-						totalCalories = calorieBase * 1.3;
-						break;
-					case 2: 
-						totalCalories = calorieBase * 1.5;
-						break;
-					case 3:
-						totalCalories = calorieBase * 1.7;
-						break;
-					case 4: 
-						totalCalories = calorieBase * 1.9;
-						break;
+			mifflinStJeor(weightArray[i], inputHeight, inputAge);
+			calculateTotalCalories();
+
+			if (male && calorieBase < 1800) {
+				newTotalCalories = 1800;
+			}
+			else if (female && calorieBase < 1200) {
+				newTotalCalories = 1200;
+			}
+			
+			if (inputGoal < inputWeight) {
+				newTotalCalories = totalCalories - calorieDifference;
+				if (newTotalCalories < calorieBase) {
+					newTotalCalories = calorieBase;
 				}
+			}
+			else if (inputGoal > inputWeight) {
+				newTotalCalories = totalCalories + calorieDifference;
+			}	
 		}
 
 		// There are 3500 calories in a pound
@@ -282,7 +286,7 @@ function caloricNeed() {
 			return '';
 		}
 		else {
-		document.getElementById('reach-goal-date').innerHTML = "You will reach your goal weight on " + formattedDate + ".";
+			goalDate.innerHTML = "You will reach your goal weight on " + formattedDate + ". When you reach your goal weight, eat at maintenance (TDEE) to maintain your weight.";
 		}
 	}
 
@@ -290,17 +294,80 @@ function caloricNeed() {
 	var daysArray = [];
 	var numDays;
 
-	// Weight loss, count down
-	while (inputWeight >= inputGoal) {
-		weightArray.push(inputWeight--);
+	while (inputWeight > inputGoal) {
+		weightArray.push(inputWeight);
+		inputWeight--;
+		calculateGoalDate();
+	}
+	
+	while (inputWeight < inputGoal) {
+		weightArray.push(inputWeight);
+		inputWeight++;
 		calculateGoalDate();
 	}
 
-	// Weight gain, count up
-	while (inputWeight <= inputGoal) {
-		weightArray.push(inputWeight++);
-		calculateGoalDate();
+	function drawTable() {
+		document.getElementById('weight-change-info').style.display = 'block';
+		var weightChangeTable = document.getElementById('weight-change-table');
+		Object.assign(weightChangeTable.style,{opacity:"1",height:"100%",lineHeight:"30px", marginTop:"20px", marginBottom:"20px"});
+		while(weightChangeTable.rows.length > 1) {
+			for (var x = 1; x < weightChangeTable.rows.length; x++)
+		  weightChangeTable.deleteRow(x);
+		}
+
+		if(document.getElementById('imperial').checked) {
+			for (i = 0; i < weightArray.length - 2; i++) {
+				chartInput();
+			}
+		}
+		else {
+			for (i = 0; i < weightArray.length - 1; i++) {
+				chartInput();
+			}
+		}
+
+		function chartInput() {
+			var tr = weightChangeTable.insertRow();
+
+			mifflinStJeor(weightArray[i], inputHeight, inputAge);
+			calculateTotalCalories();
+
+			if (male && calorieBase < 1800) {
+				newTotalCalories = 1800;
+			}
+			else if (female && calorieBase < 1200) {
+				newTotalCalories = 1200;
+			}
+			
+
+			if (inputGoal <= inputWeight) {
+				newTotalCalories = totalCalories - calorieDifference;
+				if (newTotalCalories < calorieBase) {
+					newTotalCalories = calorieBase;
+				}
+			}
+
+			else if (inputGoal >= inputWeight) {
+				newTotalCalories = totalCalories + calorieDifference;
+			}	
+
+			var td1 = tr.insertCell(0),
+					td2 = tr.insertCell(1),
+					td3 = tr.insertCell(2),
+					td4 = tr.insertCell(3);
+
+			if(document.getElementById('imperial').checked) {
+				td1.innerHTML = Math.floor((weightArray[i]) / 0.45359237) + ' lb';
+			}
+			else {
+				td1.innerHTML = (weightArray[i]) + ' kg';
+			}
+			td2.innerHTML = calorieBase;
+			td3.innerHTML = totalCalories;
+			td4.innerHTML = Math.floor(newTotalCalories);
+		}
 	}
+	drawTable();
 }
 
 function validateForm() {
