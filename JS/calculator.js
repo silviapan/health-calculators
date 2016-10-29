@@ -103,6 +103,13 @@ function caloricNeed() {
 	var bmrDisplay = document.getElementById('bmr-result');	
 	var calorieBase;
 
+	if(document.getElementById('imperial').checked) {
+		document.getElementById('current-weight').innerHTML = "Current weight: " + Math.floor(inputWeight/0.45359237) + ' lb';
+	}
+	else{
+		document.getElementById('current-weight').innerHTML = "Current weight: " + inputWeight + ' kg';
+	}
+
 	// If the body fat input is empty, use MSJ, otherwise use KMA
 	if (inputBodyFat == '') {
 		mifflinStJeor(inputWeight, inputHeight, inputAge);
@@ -288,6 +295,15 @@ function caloricNeed() {
 		else {
 			goalDate.innerHTML = "You will reach your goal weight on " + formattedDate + ". When you reach your goal weight, eat at maintenance (TDEE) to maintain your weight.";
 		}
+
+		if(document.getElementById('imperial').checked) {
+			document.getElementById('goal-weight').innerHTML = "Goal weight: " + Math.floor(inputGoal/0.45359237) + " lb";
+		}
+		else{
+			document.getElementById('goal-weight').innerHTML = "Goal weight: " + inputWeight + " kg";
+		}
+		document.getElementById('bmr-result2').innerHTML = "Your BMR: " + calorieBase + " Calories";
+		document.getElementById('tdee-result2').innerHTML = "Your TDEE: " + totalCalories + " Calories"
 	}
 
 	var weightArray = [];
@@ -332,14 +348,6 @@ function caloricNeed() {
 			mifflinStJeor(weightArray[i], inputHeight, inputAge);
 			calculateTotalCalories();
 
-			if (male && calorieBase < 1800) {
-				newTotalCalories = 1800;
-			}
-			else if (female && calorieBase < 1200) {
-				newTotalCalories = 1200;
-			}
-			
-
 			if (inputGoal <= inputWeight) {
 				newTotalCalories = totalCalories - calorieDifference;
 				if (newTotalCalories < calorieBase) {
@@ -350,6 +358,13 @@ function caloricNeed() {
 			else if (inputGoal >= inputWeight) {
 				newTotalCalories = totalCalories + calorieDifference;
 			}	
+
+			if (male && calorieBase < 1800) {
+				newTotalCalories = 1800;
+			}
+			else if (female && calorieBase < 1200) {
+				newTotalCalories = 1200;
+			}
 
 			var td1 = tr.insertCell(0),
 					td2 = tr.insertCell(1),
