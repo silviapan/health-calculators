@@ -243,6 +243,20 @@ function caloricNeed() {
 	// The TDEE is recalculated for each pound lost so that the estimate is more accurate
 		for (i = 0; i < weightArray.length; i++) {
 			mifflinStJeor(weightArray[i], inputHeight, inputAge);
+
+			var calorieDifference;
+			switch (rateChange) {
+				case 0: 
+					calorieDifference = totalCalories * 0.15;
+					break;
+				case 1:
+					calorieDifference = totalCalories * 0.20;
+					break;
+				case 2:
+					calorieDifference = totalCalories * 0.25;
+					break;
+			}
+			
 			calculateTotalCalories();
 
 			if (male && calorieBase < 1800) {
@@ -367,9 +381,9 @@ function caloricNeed() {
 			}
 
 			var td1 = tr.insertCell(0),
-					td2 = tr.insertCell(1),
-					td3 = tr.insertCell(2),
-					td4 = tr.insertCell(3);
+				td2 = tr.insertCell(1),
+				td3 = tr.insertCell(2),
+				td4 = tr.insertCell(3);
 
 			if(document.getElementById('imperial').checked) {
 				td1.innerHTML = Math.floor((weightArray[i]) / 0.45359237) + ' lb';
