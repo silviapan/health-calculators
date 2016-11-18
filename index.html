@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Health Calculators</title>
+		<link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Pavanam" rel="stylesheet">
+
+		<link rel="stylesheet" type="text/css" href="CSS/normalize.css">
+		<link rel="stylesheet" type="text/css" href="CSS/style.css">
+
+		<script type="text/javascript" src="JS/calculator.js"></script>
+
+</head>
+
+<body onload="convertUnits()">
+
+<header>
+	<h1>Health Calculators</h1>
+</header>
+
+<div class="container">
+	<div class="intro-container">
+		<h2><strong>Tools to a Healthy Weight</strong></h2>
+		<h3>
+			The calculators can be used as a guide for both weight loss and weight gain. Get personalized results and recommendations. Take the guesswork out of how much to eat each day.
+		</h3>
+		<p>Disclaimer: The recommendations stated are suggestions and do not constitute as medical advice. Please consult your physician if you have any questions or concerns.</p> 
+	</div>
+
+	<div class="bmi-container">
+		<input type="radio" name="system" id="imperial" checked="checked" onchange="convertUnits()">Imperial
+		<input type="radio" name="system" id="metric" onchange="convertUnits()">Metric<br>
+
+		<h2>1) Am I at a healthy weight?</h2>
+		<h3>Body Mass Index</h3>
+		<p>
+			Body mass index (BMI) is a value that represents the relationship between your height and weight. According to your height and weight, you can be classified as either underweight, normal weight, overweight, or obese.
+		<br>
+		<p><strong>Please note that the calculator is intended for adult (ages 20+) use only.</strong> For a child and teen BMI calculator, <a title="Click here for child and teen BMI calculator" href="https://www.cdc.gov/healthyweight/assessing/bmi/">click here</a>.</p>
+		<br>
+		<div class="bmi-calculator">
+		<h3 class="calculator-title">Calculate BMI</h3>
+		<form>
+			<input type="radio" name="sex" value="male">Male
+			<input type="radio" name="sex" value="female">Female<br>
+			<table>
+				<tr><td>Age: 		</td><td><input type="number" name="age" min="20" max="100"><span class="unit">yr</span></td></tr>
+				<tr><td>Weight: </td><td><input type="number" name="weight" min="1" max="500" oninput="bodyMassIndex()"><span class="unit lb-kg">lb</span></td></tr>
+				<tr><td>Height: </td>
+									<td id="height-ft-in"><input class="ft-in" type="number" name="height" min="1" max="10" oninput="bodyMassIndex()"><span class="unit">ft</span>
+											<input class="ft-in" type="number" name="height" min="0" max="11" oninput="bodyMassIndex()"><span class="unit">in</span>
+									</td>
+
+									<td id="height-cm"><input type="number" name="height" min="1" max="250" oninput="bodyMassIndex()"><span class="unit">cm</span></div></td>
+				</tr>
+			</table>
+		</form>
+		</div>
+		<h3><span class="display-result" id="bmi-result"></span></h3>
+		<details>
+			<summary><h3>Learn More About BMI</h3></summary>
+			<div class="details-info">
+				<p>Body mass index (BMI) is a value that represents the relationship between your height and weight. While it cannot predict with absolute certainty the ideal weight and health of the individual, it can be a great indicator of body fat percentage and the associated health risks. For example, a high BMI is strongly correlated with a high level of excess body fat. Please fill out all fields to calculate your BMI.</p><br> 
+				<div class="formula">
+					BMI = Weight/(Height x Height)
+				</div>
+				<br><p>The formula uses metric units; weight is in kilograms (kg) and height is in meters (m). It returns a ratio of weight to height squared (kg/m<sup>2</sup>). That ratio is then plotted on the chart to see which percentile it falls in. Below is the chart that classifies the BMI into weight categories.<sup>1</sup></p>
+				<br>
+				<table>
+					<strong>BMI Categories</strong>
+					<tr><td>18.5 or less</td><td>Underweight</td></tr>
+					<tr><td>18.5 to 24.9</td><td>Normal Weight</td></tr>
+					<tr><td>25.0 to 29.9</td><td>Overweight</td></tr>
+					<tr><td>30.0 to 34.9</td><td>Obese I</td></tr>
+					<tr><td>35.0 to 39.9</td><td>Obese II</td></tr>
+					<tr><td>40.0 or greater</td><td>Obese III</td></tr>
+				</table>
+				<br>
+
+				<strong>BMI Chart for Adults</strong><sup>2</sup>
+				<br><img alt="BMI Chart" title="BMI Chart Percentile" src="Images/BMI_Chart.gif"></td></tr>
+				<br>
+				<cite>
+					Sources: 
+					1. WHO :: Global Database on Body Mass Index. (n.d.). Retrieved from <a title="WHO BMI classifications" href="http://apps.who.int/bmi/index.jsp?introPage=intro_3.html">http://apps.who.int/bmi/index.jsp?introPage=intro_3.html</a>
+					2. Printable BMI Chart. (n.d.). Retrieved from <a title="BMI Chart" href="http://www.vertex42.com/ExcelTemplates/bmi-chart.html">http://www.vertex42.com/ExcelTemplates/bmi-chart.html</a>
+				</cite>
+			</div>
+		</details>
+	</div>
+
+	<div class="calorie-container">
+		<h2>2) How much should I eat?</h2>
+		<div class="calorie-calculator">
+		<h3 class="calculator-title">Calculate Caloric Need</h3>
+			<form>
+				<table>
+					<tr><td>Body Fat: </td><td><input type="number" name="body-fat" min="0" max="100"><span class="unit">%</span> (Optional)</td></tr>
+					<tr><td>Activity Level: </td>
+						<td>
+							<select id="activity-level">
+							  <option value="sedentary">Sedentary</option>
+							  <option value="lightly-active">Lightly Active</option>
+							  <option value="moderately-active">Moderately Active</option>
+							  <option value="very-active">Very Active</option>
+							  <option value="extremely-active">Extremely Active</option>
+							</select>
+						</td></tr>
+				</table>
+
+					<div class="more-info">
+						<table>
+							<tr>
+								<td>Sedentary</td><td>Little to no exercise</td>
+							</tr>
+
+							<tr>
+								<td>Lightly active</td><td>Exercise or sports for at least 20 minutes 1 - 3 days a week.</td>
+							</tr>
+
+							<tr>
+								<td>Moderately active</td><td>Exercise or sports for at least 30 - 60 minutes 3 - 5 days a week.</td>
+							</tr>
+
+							<tr>
+								<td>Very active</td><td>Intensive exercise or sports for at least 60 minutes 5 -7 days a week.</td>
+							</tr>
+
+							<tr>
+								<td>Extremely active</td><td>Intensive daily exercise or sports with multiple training sessions.</td>
+							</tr>
+						</table>
+					</div>
+				<table>
+				<tr>
+					<td>Goal: <input type="number" name="goal" min="1" max="500"><span class="unit lb-kg">lb</span></td>
+					<td>
+						Rate Change:	
+							<select id="rate">
+							  <option value="average">Average</option>
+							  <option value="moderate">Moderate</option>
+							  <option value="fast">Fast</option>
+							</select>
+					</td>
+					</tr></table>
+					<input type="reset" name="reset">
+			</form>
+			<input type="submit" onclick="caloricNeed()" value="Calculate">
+		</div>
+	
+		<h3>
+			<span class="display-result">
+				<h3>The BMR represents an estimate of the minimum number of calories needed to keep your body functioning. The BMR is multiplied by the activity level factor to get the TDEE, which is an estimate of the total number of calories needed to maintain your current weight.</h3>
+				<span class="indent" id="current-weight"></span>
+				<span class="indent" id="bmr-result"></span>
+				<span class="indent" id="tdee-result"></span>
+				<span id="new-calorie-result"></span>
+				<strong><span id="empty-warning"></span></strong>
+				<strong><span id="weight-warning"></span></strong>
+				<span id="weight-change-info">
+					<p>However, as your weight changes so does your TDEE. Weight loss will result in a lower TDEE and the opposite is true for weight gain. In order to maintain a steady rate of weight change, you will need to adjust your daily caloric intake. The table below lists your weight trend, BMR, TDEE, and the appropriate intake in order to reach your goals.</p>
+				</span>
+				<table id="weight-change-table">
+				<th>Weight</th><th>BMR</th><th>TDEE</th><th>New Intake</th>
+				</table>
+				<strong><span id="reach-goal-date"></span></strong>
+				<span class="indent" id="goal-weight"></span>
+				<span class="indent" id="bmr-result2"></span>
+				<span class="indent" id="tdee-result2"></span>
+			</span>
+		</h3>
+
+		<details>
+	 		<summary><h3>Learn More About BMR and TDEE</h3></summary>
+	 		<div class="details-info">
+	 		<h3>Basal Metabolic Rate</h3>
+			<p>All food contains calories, which are units of energy that your body utilizes to function. The basal metabolic rate <strong>(BMR)</strong> is the <strong>minimum</strong> amount of energy used by the body at rest, i.e. this is the amount of energy used only to keep your organs functioning. It varies according to your age, weight, height, sex, and body fat percentage.</p><br>
+
+			<h3>Total Daily Energy Expenditure</h3>
+		 	<p>The total daily energry expenditure <strong>(TDEE)</strong> is the <strong>total</strong> amount of energy needed in a day. It takes the BMR and multiplies it with a multiplier that reflects your daily activity level. Your TDEE is how much you would eat to maintain your current weight. One important theory to keep in mind is <strong>"Calories In, Calories Out"</strong>. When calorie intake is greater than calorie expenditure, weight gain occurs. Conversely, when calorie intake is less than calorie expenditure, weight loss occurs.</p>
+ 			<p>The most widely used formulas to calculate caloric needs are the Harris-Benedict (HB), Mifflin-St Jeor (MSJ), and Katch-McArdle Equations (KA). For this calculator, MSJ is used because it is the most reliable for estimating the resting metabolic rate (RMR).<sup>1</sup> RMR differs slightly from BMR. Measuring BMR is more restrictive because it requires a 12-hour fasting and inactive period whereas RMR does not and it takes into account the amount of energy required to digest food.<sup>2</sup> For ease of explaining the caloric needs, the title displays "BMR" instead of "RMR." If no body fat percentage is inputted, the MSJ formula is used -- otherwise, the KA formula is used. The units are as follows: weight (kg), height (cm), age (years), and body fat (percentage).
+ 			</p><br>
+	 			<div class="formula">
+	 				<strong>Mifflin-St Jeor</strong> 
+	 					<table>
+		 					<tr><td>RMR<sub>male</sub></td><td>= 9.99 x Weight + 6.25 x Height - 4.92 x age + 5</td></tr>
+				 			<tr><td>RMR<sub>female</sub></td><td>= 9.99 x Weight + 6.25 x Height - 4.92 x age - 161</td></tr>
+			 			</table>
+	 			</div>
+
+	 			<div class="formula">
+	 				<strong>Katch-McArdle</strong>
+			 			<br>BMR = 370 + 21.6 x {[Weight x (100 - Body Fat)]/100}
+	 			</div>
+
+	 			<br><p>After getting the BMR, it is multiplied by a multiplier that corresponds to the activity level to get the TDEE.<sup>3</sup></p>
+	 			<br>
+	 			<div class="formula">
+	 				<strong>TDEE</strong>
+			 			<br>TDEE = BMR x Activity Factor
+	 			</div>
+	 			<br>
+	 			<table>
+	 				<tr><td><strong>Activity Level</strong></td><td><strong>Multiplier</strong></td></tr>
+	 				<tr><td>Sedentary</td><td>1.2</td></tr>
+	 				<tr><td>Lightly Active</td><td>1.3 - 1.375</td></tr>
+	 				<tr><td>Moderately Active</td><td>1.5 - 1.55</td></tr>
+	 				<tr><td>Very Active</td><td>1.7</td></tr>
+	 				<tr><td>Extremely Active</td><td>1.9</td></tr>
+	 			</table>
+	 			<br>For the levels with a range as a multiplier instead of one number, the lowest number of the range was used as the multiplier. If the calculated BMI were 2000 Calories and the activity level were 'Sedentary', the TDEE would equal 2000 x 1.2, totaling 2400 Calories. The TDEE represents an estimate of the total calories needed per day to maintain the body's current weight. Eating above the TDEE will result in weight gain and eating below would result in weight loss.
+	 			<br>
+	 			<cite>
+	 				Sources:
+	 				1. Frankenfield, D., Roth-Yousey, L., & Compher, C. (2005). Comparison of Predictive Equations for Resting Metabolic Rate in Healthy Nonobese and Obese Adults: A Systematic Review [Abstract]. Journal of the American Dietetic Association, 105(5), 775-789. <a title="RMR Equations" href="https://www.ncbi.nlm.nih.gov/pubmed/15883556">doi:10.1016/j.jada.2005.02.005</a>
+	 				2. Merritt, A. (2010, March 22). BMR Versus RMR. Retrieved from <a title="ACE Fitness - BMR vs RMR" href="https://www.acefitness.org/blog/616/bmr-versus-rmr">https://www.acefitness.org/blog/616/bmr-versus-rmr</a>
+	 				3. Harris Benedict equation - Determination of the basal metabolic rate (BMR). Basal energy expenditure. Dieting and nutrition tool. (n.d.). Retrieved from <a title="Harris Benedict Equation" href="http://www.globalrph.com/harris-benedict-equation.htm">http://www.globalrph.com/harris-benedict-equation.htm</a>
+	 			</cite>
+	 		</div>
+	 	</details>
+
+	 	<details>
+			<summary><h3>Learn More About the Calorie Recommendations</h3></summary>
+			<br><p>Based on the personal information you inputted, you received your BMR and TDEE. Eating at your TDEE each day will allow you to maintain your weight. In order to lose weight you would need to eat less than your TDEE. Conversely, if you aim to gain weight, you would eat more than your TDEE.</p>
+			<br>
+			<div class="formula">
+				Calorie Deficit = TDEE x Rate		
+			</div>
+			<br><p>The rate change options are: Average, Moderate, and Fast. The percent change is 15%, 20%, and 25%, respectively. If your TDEE is 2000 and you are aiming to lose weight at a 'Fast' pace, you would need to have a 25% deficit in your daily calorie intake. Therefore, your deficit is 2000 x .25, or 500 Calories.</p>
+			<br><p>There are 3500 Calories in one pound of fat.<sup>1</sup>Therefore, in order to lose one pound of fat in one week you would need to eat 3500 fewer calories, about 500 fewer calories each day. However, for some people, a 500-Calorie deficit would be too large. The calculated deficit is used to calculate how many days to lose one pound. For example, if your deficit is 350 Calories, it would take you ten days to lose one pound.</p>
+			<br><p>For this calculator, the lowest value for the new recommended intake is your BMR. Another safety measure added is the lowest calorie limit: The lowest recommended calorie intake for women is 1200 Calories and for men is 1800 Calories.<sup>2</sup>It may be tempting to have a huge deficit to for quicker weight loss, but it would most likley be difficult to maintain a very huge deficit for a long period of time. The predictions are meant to take into account the decreasing TDEE with each pound lose and adjust the deficit so you can achieve your goal in a safe, steady manner.</p>  
+
+			<cite>
+			1. Mayo Clinic Staff. (2015, April 11). Weight loss. Retrieved from <a title=
+			"Mayo Clinic - Weight Loss" href="http://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/calories/art-20048065">http://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/calories/art-20048065</a>
+			2. ACSM | ACSM in the News. (n.d.). Retrieved from <a title="ACSM - Metabolism" href="http://www.acsm.org/about-acsm/media-room/acsm-in-the-news/2011/08/01/metabolism-is-modifiable-with-the-right-lifestyle-changes">http://www.acsm.org/about-acsm/media-room/acsm-in-the-news/2011/08/01/metabolism-is-modifiable-with-the-right-lifestyle-changes</a>
+		</details>
+	</div>
+
+	<div class="result-container">
+		<h2>3) How can I reach my goal?</h2>
+		<h3>Calories In, Calories Out</h3>
+		<p>Whether you aim to lose or gain weight, one simple principle applies -- <strong>Calories In, Calories Out (CICO)</strong>. If you want to lose weight, calorie intake should be less than calorie expenditure and vice versa is true to gain weight. TDEE is the amount needed to maintain your weight and eating less or more than that amount would result in weight change.</p><br> 
+			<ul><h3>Tools to Help You Reach Your Goal</h3>
+				<li><h3>Calorie Counter</h3>
+					<p>There are many wonderful calorie counting apps that you can download onto your phone to track the total amount eaten each day. With huge databases that everything from include fresh fruits to packaged snacks, these apps make calorie counting a cinch. Some popular calorie counter apps are MyFitnessPal, Lose It!, and FatSecret. If you do you not have a smart phone or prefer not to use an app, consider keeping a food journal in which you write down the type of food and its portion size for each meal.</p>
+				</li>
+
+				<li><h3>Food Scale</h3>
+					<p>It can be very difficult to tell if you are eating the correct portion size. However, with a food scale you can measure out the portions for each meal and get even more accurate calculations for your calorie counter.</p>
+				</li>
+
+				<li><h3>Exercise</h3>
+					<p>You may notice that exercise was not mentioned as a requirement for weight loss because exercise is not neccessary to lose weight. You can reach your goal without ever having to exercise. However, exercising will help you burn calories and in turn help you shed the weight faster. Plus, it is also great for your health.</p>
+				</li>
+			</ul>
+		<br><p>Sticking to your recommended calorie intake may be hard and some days you will mess up and that is fine. Whether you are aiming to lose weight or gain weight, make your new habits part of your lifestyle. If you find that you are still struggling and the scale does not seem to be moving, go back to step one and redo the calculations. Weigh your food and count your calories. <strong>There are no cheat days. Each day counts. Stay consistent and you will reach your goal!</strong>
+	</div>
+
+</div>
+
+</body>
+
+</html>
