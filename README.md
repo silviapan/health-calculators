@@ -3,6 +3,8 @@
 I created a site to simplify the process of weight loss (and weight gain). 
 The first step is understanding healthy weight ranges according to World Health Organization (WHO) standards. Next step is adjusting caloric intake to reach a weight within the healthy body mass index (BMI) range.
 
+Health calculators take the guesswork out of what is a healthy weight and how much food should be eaten to reach that goal. The users first recive suggestions for a healthy weight according to their height. After the users input personal body data they receive personalized step-by-step recommendations on how to best achieve their goals.
+
 <ul>
 <li>BMI calculator with suggestions on healthy weight range</li>
 <li>Daily caloric intake calculator to determine needs based on BMI and activity level</li>
