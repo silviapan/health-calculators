@@ -12,3 +12,5 @@ The first step is understanding healthy weight ranges according to World Health 
 </ul>
 
 The site is intended for any person who wishes to lose or gain weight in a steady, sustainable manner. In my future updates I plan to add a line graph to visualize the weight changes and goal dates.
+
+Visit Health Calculators at https://silviapan.github.io/health-calculators/
