@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="CSS/style.css">
 
 	<script type="text/javascript" src="JS/calculator.js"></script>
+	<script type="text/javascript" src="JS/events.js"></script>
 </head>
 
 <body onload="convertUnits()">
@@ -32,9 +33,9 @@
 
 		<div class="content-container">
 			<div class="menu-container">
-				<div class="menu-option option-selected">Step 1 - BMI</div>
-				<div class="menu-option">Step 2 - Calories</div>
-				<div class="menu-option">Step 3 - Goals</div>
+				<div class="menu-option option-selected" data-index="0" onClick=toggleShow(this)>Step 1 - BMI</div>
+				<div class="menu-option" data-index="1" onClick=toggleShow(this)>Step 2 - Calories</div>
+				<div class="menu-option" data-index="2" onClick=toggleShow(this)>Step 3 - Goals</div>
 			</div>
 
 			<div class="content content-displayed" id="bmi-container">
