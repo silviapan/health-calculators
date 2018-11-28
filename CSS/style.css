@@ -89,6 +89,14 @@ header {
 	background-color: #C0EAE5;
 }
 
+.content {
+	display: none;
+}
+
+.content-displayed {
+	display: block;
+}
+
 .bmi-calculator, .calorie-calculator {
 	border: 4px solid #2AAFA0;
 	border-radius: 10px;
