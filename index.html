@@ -32,12 +32,12 @@
 
 		<div class="content-container">
 			<div class="menu-container">
-				<div class="menu-option active">Step 1 - BMI</div>
+				<div class="menu-option option-selected">Step 1 - BMI</div>
 				<div class="menu-option">Step 2 - Calories</div>
 				<div class="menu-option">Step 3 - Goals</div>
 			</div>
 
-			<div class="bmi-container">
+			<div id="bmi-container">
 				<input type="radio" name="system" id="imperial" checked="checked" onchange="convertUnits()">Imperial
 				<input type="radio" name="system" id="metric" onchange="convertUnits()">Metric<br>
 
@@ -130,7 +130,7 @@
 			</div>
 		</div>
 
-		<div class="calorie-container">
+		<div id="calorie-container">
 			<h2>How much should I eat?</h2>
 			<div class="calorie-calculator">
 				<h3 class="calculator-title">Calculate Caloric Need</h3>
@@ -340,7 +340,7 @@
 			</details>
 		</div>
 
-		<div class="result-container">
+		<div id="result-container">
 			<h2>How can I reach my goal?</h2>
 			<h3>Calories In, Calories Out</h3>
 			<p>Whether you aim to lose or gain weight, one simple principle applies -- <strong>Calories In, Calories Out (CICO)</strong>. If you want to lose weight, calorie intake should be less than calorie expenditure and vice versa is true to gain

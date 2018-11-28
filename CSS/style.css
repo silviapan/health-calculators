@@ -85,11 +85,11 @@ header {
 	background-color: #e6f7f5;
 }
 
-.active {
+.option-selected {
 	background-color: #C0EAE5;
 }
 
-.bmi-calculator, .calorie-calculator {
+#bmi-calculator, #calorie-calculator {
 	border: 4px solid #2AAFA0;
 	border-radius: 10px;
 	width: 500px;
