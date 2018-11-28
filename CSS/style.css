@@ -3,12 +3,12 @@
 	font-size: 20px;
 }
 
-strong { 
+strong {
 	font-weight: bold;
-	display: inline; 
+	display: inline;
 }
 
-sup { 
+sup {
   vertical-align: super;
   font-size: x-small;
 }
@@ -32,7 +32,7 @@ ul > li {
 
 body {
 	background-color:#C0EAE5;
-	background-image: 
+	background-image:
 	radial-gradient(circle at 100% 150%, #C0EAE5 24%, white 25%, white 28%, #C0EAE5 29%, #C0EAE5 36%, white 36%, white 40%, transparent 40%, transparent),
 	radial-gradient(circle at 0    150%, #C0EAE5 24%, white 25%, white 28%, #C0EAE5 29%, #C0EAE5 36%, white 36%, white 40%, transparent 40%, transparent),
 	radial-gradient(circle at 50%  100%, white 10%, #C0EAE5 11%, #C0EAE5 23%, white 24%, white 30%, #C0EAE5 31%, #C0EAE5 43%, white 44%, white 50%, #C0EAE5 51%, #C0EAE5 63%, white 64%, white 71%, transparent 71%, transparent),
@@ -59,12 +59,34 @@ header {
 	font-size: 18px;
 	line-height: 24px;
 	font-family: 'Pavanam', sans-serif;
-	background-color: rgba(255,255,255, 0.8); 
+	background-color: rgba(255,255,255, 0.8);
 	padding: 50px;
 }
 
-.intro-container, .bmi-container, .calorie-container, .result-container {
-	padding: 40px 40px 0 40px; 
+.intro-container, .content-container {
+	padding: 40px 40px 0 40px;
+}
+
+.menu-container {
+	display: flex;
+	border-bottom: 1px solid #2AAFA0;
+	margin-bottom: 30px;
+}
+
+.menu-option {
+	width: calc(100% / 3);
+	padding: 10px 30px;
+	border-radius: 10px 10px 0 0;
+	cursor: pointer;
+	text-align: center;
+}
+
+.menu-option:hover {
+	background-color: #e6f7f5;
+}
+
+.active {
+	background-color: #C0EAE5;
 }
 
 .bmi-calculator, .calorie-calculator {
@@ -121,6 +143,7 @@ h3 {
 
 p {
 	font-size: 20px;
+	line-height: 30px;
 }
 
 .calculator-title {
@@ -188,12 +211,8 @@ input[type=reset] {
 	display: none;
 }
 
-details {
-	padding-top: 20px;
-}
-
 .details-info {
-	padding: 20px;
+	padding-top: 30px;
 }
 
 .formula {
@@ -226,4 +245,3 @@ cite {
 	width: 110px;
 	padding: 0 10px;
 }
-
